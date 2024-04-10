@@ -54,7 +54,10 @@ distanciaManhattan:: (Float, Float, Float) -> (Float, Float, Float) -> Float
 distanciaManhattan (a, b, c) (d, e, f) = (abs (a-d)) + (abs (b-e)) + (abs (c-f)) 
 
 
-sumaUltimosDosDigitos :: Int -> Int
+sumaUltimosDosDigitos :: Integer -> Integer
 sumaUltimosDosDigitos x = digitoUnidades x + digitoDecenas x
 
-comparar :: Int -> Int -> Int
+comparar :: Integer -> Integer -> Integer
+comparar a b| sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
+            | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
+            | sumaUltimosDosDigitos a == sumaUltimosDosDigitos b = 0
