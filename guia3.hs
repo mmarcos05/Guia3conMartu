@@ -55,6 +55,6 @@ distanciaManhattan (a, b, c) (d, e, f) = (abs (a-d)) + (abs (b-e)) + (abs (c-f))
 
 
 sumaUltimosDosDigitos :: Int -> Int
-sumaUltimosDosDigitos x = digitoUnidades
+sumaUltimosDosDigitos x = digitoUnidades x + digitoDecenas x
 
 comparar :: Int -> Int -> Int
