@@ -61,3 +61,8 @@ comparar :: Integer -> Integer -> Integer
 comparar a b| sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
             | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
             | sumaUltimosDosDigitos a == sumaUltimosDosDigitos b = 0
+
+-- problema promedio (x:R, y:R) : R {
+    --requiere: {True}
+    --asegura: {res = promedio entre x e y}
+--}
