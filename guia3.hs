@@ -58,11 +58,20 @@ sumaUltimosDosDigitos :: Integer -> Integer
 sumaUltimosDosDigitos x = digitoUnidades x + digitoDecenas x
 
 comparar :: Integer -> Integer -> Integer
-comparar a b| sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
-            | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
-            | sumaUltimosDosDigitos a == sumaUltimosDosDigitos b = 0
+comparar a b | sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
+             | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
+             | sumaUltimosDosDigitos a == sumaUltimosDosDigitos b = 0
 
--- problema promedio (x:R, y:R) : R {
-    --requiere: {True}
-    --asegura: {res = promedio entre x e y}
---}
+
+--EJERCICIO 9
+--Punto d)
+-- problema promedio (x: R, y : R) : R {
+--   requiere : {True}
+--   asegura : res = promedio entre x, y
+--  }
+
+--Punto f)
+-- problema promedio (t: RxR) : R {
+--   requiere: {True}
+--   asegura: res = promedio entre componentes de t (t1, t2)
+--  }
