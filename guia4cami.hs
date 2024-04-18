@@ -80,7 +80,9 @@ sumaKPrimos :: Integer -> Integer
 sumaKPrimos k = sumaKPrimosDesde 2 k
 
 esSumaInicialDePrimos :: Integer -> Bool
-esSumaInicialDePrimos k |sumaKPrimos k == k = True
+esSumaInicialDePrimos n = esSumaInicialDePrimosDesde 1 n
 
 esSumaInicialDePrimosDesde :: Integer -> Integer -> Bool
-esSumaInicialDePrimosDesde i k |
+esSumaInicialDePrimosDesde k n | (sumaKPrimos k) < n = esSumaInicialDePrimosDesde (k+1) n
+                               | (sumaKPrimos k) == n = True
+                               | (sumaKPrimos k) > n = False
