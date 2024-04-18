@@ -42,12 +42,45 @@ todosDigitosIguales n |n < 10 = True
                       |otherwise = digitoUnidades(n) == (digitoUnidades(sacarUnidades(n))) 
                                    && todosDigitosIguales(sacarUnidades(n))
 
---EJERCICIO 8
-iesimoDigito :: Integer -> Integer -> Integer
-iesimoDigito n i |
+--EJERCICIO 13
+dobleSumaDePotencias :: (Integer, Integer) -> Integer
+dobleSumaDePotencias (n, m) |n == 1 = sumaPotenciasDe (1, m)
+                            |n>1 = sumaPotenciasDe(n, m) + dobleSumaDePotencias(n-1, m)
 
-cantDigitos :: Integer -> Integer
-cantDigitos n |n < 10 = 1
-              |otherwise = 1 + cantDigitos (sacarUnidades (n))
-              |where sacarUnidades n = div n 10
+sumaPotenciasDe :: (Integer, Integer) -> Integer
+sumaPotenciasDe (n, m) |m == 1 = n
+                       |m>1 = n^m + dobleSumaDePotencias(n, m-1)
 
+--EJERCICIO 16
+--Punto a)
+menorDivisor :: Integer -> Integer
+menorDivisor n = menorDivisorDesde n 2
+
+menorDivisorDesde :: Integer -> Integer -> Integer
+menorDivisorDesde n y| n == y = y
+                     | mod n y == 0 = y
+                     | otherwise = menorDivisorDesde n (y+1)
+
+--Punto b)
+esPrimo :: Integer -> Bool
+esPrimo n |menorDivisor n == n = True
+          |otherwise = False
+
+--Punto c)
+--sonCoprimos :: Integer -> Integer -> Bool
+--sonCoprimos x y |
+
+--EJERCICIO 19
+sumaKPrimosDesde :: Integer -> Integer -> Integer
+sumaKPrimosDesde i k |k == 0 = 0
+                     |esPrimo i = sumaKPrimosDesde (i + 1) (k-1)
+                     |otherwise = sumaKPrimosDesde (i+1) k
+
+sumaKPrimos :: Integer -> Integer
+sumaKPrimos k = sumaKPrimosDesde 2 k
+
+esSumaInicialDePrimos :: Integer -> Bool
+esSumaInicialDePrimos k |sumaKPrimos k == k = True
+
+esSumaInicialDePrimosDesde :: Integer -> Integer -> Bool
+esSumaInicialDePrimosDesde i k |
