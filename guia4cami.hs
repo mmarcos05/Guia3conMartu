@@ -31,17 +31,6 @@ sumaDigitos n |n == 0 = 0
               |otherwise = mod n 10 + sumaDigitos(div n 10)
 
 --EJERCICIO 7
-digitoUnidades :: Integer -> Integer
-digitoUnidades n = mod n 10
-
-sacarUnidades :: Integer -> Integer
-sacarUnidades n = div n 10
-
-todosDigitosIguales :: Integer -> Bool
-todosDigitosIguales n |n < 10 = True
-                      |otherwise = digitoUnidades(n) == (digitoUnidades(sacarUnidades(n))) 
-                                   && todosDigitosIguales(sacarUnidades(n))
---EJERCICIO 7
 --digitoUnidades :: Integer -> Integer
 --digitoUnidades n = mod n 10
 
