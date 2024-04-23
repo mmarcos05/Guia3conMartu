@@ -75,3 +75,50 @@ todosPertenecen (x:xs) ys = pertenece x ys && todosPertenecen xs ys
 capicua :: (Eq t) => [t] -> Bool
 capicua [x] = True
 capicua (x:xs) = (x:xs) == reverso (x:xs)
+
+-- Ejercicio 3.1  
+sumatoria :: [Int] -> Int
+sumatoria [] = 0
+sumatoria (x:xs) = x + sumatoria xs
+
+-- 3.2
+productoria :: [Int] -> Int
+productoria [] = 1
+productoria (x:xs) = x * productoria xs
+
+-- 3.3
+maximo :: [Int] -> Int
+maximo [x] = x
+maximo (x:y:ys) | x > y = maximo (x:ys)
+                | x < y = maximo (y:ys)
+                | otherwise = maximo (x:ys)
+                
+-- 3.4
+sumarN :: Int -> [Int] -> [Int]
+sumarN _ [] = []
+sumarN x (y:ys) = y + x : sumarN x ys
+
+-- 3.5
+sumarElPrimero :: [Int] -> [Int]
+sumarElPrimero [] = []
+sumarElPrimero (x:xs) = sumarN x (x:xs)
+
+-- 3.6
+sumarElUltimo :: [Int] -> [Int]
+sumarElUltimo [] = []
+sumarElUltimo (x:xs) = sumarN (ultimo (x:xs)) (x:xs)
+
+-- 3.9
+ordenar :: [Int] -> [Int]
+ordenar [] = []
+ordenar [x] = [x]
+ordenar (x:xs) = minimo (x:xs) : ordenar (quitar (minimo (x:xs))(x:xs))
+               
+
+minimo :: [Int] -> Int
+minimo [x] = x
+minimo (x:y:ys) | x < y = minimo (x:ys)
+                | x > y = minimo (y:ys)
+                | otherwise = minimo (x:ys)
+
+
