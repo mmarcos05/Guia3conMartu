@@ -108,17 +108,87 @@ sumarElUltimo :: [Int] -> [Int]
 sumarElUltimo [] = []
 sumarElUltimo (x:xs) = sumarN (ultimo (x:xs)) (x:xs)
 
+-- 3.7
+pares :: [Int] -> [Int]
+pares [] = []
+pares (x:xs) | esPar x = x : pares xs
+             | otherwise = pares xs
+             
+esPar :: Int -> Bool
+esPar x = mod x 2 == 0 
+
+-- 3.8
+multiplosDeN :: Int -> [Int] -> [Int]
+multiplosDeN _ [] = []
+multiplosDeN n (x:xs) | mod x n == 0 = x : multiplosDeN n xs
+                      | otherwise = multiplosDeN n xs
 -- 3.9
 ordenar :: [Int] -> [Int]
 ordenar [] = []
 ordenar [x] = [x]
 ordenar (x:xs) = minimo (x:xs) : ordenar (quitar (minimo (x:xs))(x:xs))
                
-
 minimo :: [Int] -> Int
 minimo [x] = x
 minimo (x:y:ys) | x < y = minimo (x:ys)
                 | x > y = minimo (y:ys)
                 | otherwise = minimo (x:ys)
 
+-- Ejercicio 4.a.a
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos [] = []
+sacarBlancosRepetidos [a] = [a]
+sacarBlancosRepetidos (a:b:bs) | a == ' ' && b == ' ' = sacarBlancosRepetidos (a:bs)
+                               | otherwise = a : sacarBlancosRepetidos (b:bs)
 
+-- 4.a.b
+contarPalabras :: [Char] -> Int
+contarPalabras [] = 0
+contarPalabras (a:as) = 1 + contarPalabrasAux (sacarBlancoInicio (sacarBlancoFinal (sacarBlancosRepetidos (a:as))))
+
+
+contarPalabrasAux :: [Char] -> Int -- cuento las palabras despues del primer espacio
+contarPalabrasAux [] = 0 
+contarPalabrasAux (a:as) | a == ' ' = 1 + contarPalabrasAux as
+                         | otherwise = contarPalabrasAux as
+
+sacarBlancoInicio :: [Char] -> [Char]
+sacarBlancoInicio [] = []
+sacarBlancoInicio (a:as) | a == ' ' = as
+                         | otherwise = a:as
+
+sacarBlancoFinal :: [Char] -> [Char]
+sacarBlancoFinal [] = []
+sacarBlancoFinal [a] | a == ' ' = []
+                     | otherwise = [a]
+sacarBlancoFinal (a:as) = a : sacarBlancoFinal as
+
+-- 4.a.c
+palabras :: [Char] -> [[Char]]
+palabras [] = []
+palabras (a:as) = primeraPalabra (a:as) : palabras (sacarPrimeraPalabra (a:as))
+
+primeraPalabra :: [Char] -> [Char]
+primeraPalabra [] = []
+primeraPalabra (a:as) = primeraPalabraAux (sacarBlancoInicio (sacarBlancoFinal (sacarBlancosRepetidos (a:as))))
+
+primeraPalabraAux :: [Char] -> [Char]
+primeraPalabraAux [] = []
+primeraPalabraAux (a:as) | a == ' ' = []
+                         | otherwise = a : primeraPalabraAux as
+
+sacarPrimeraPalabra :: [Char] -> [Char]
+sacarPrimeraPalabra [] = []
+sacarPrimeraPalabra (a:as) = sacarPrimeraPalabraAux (sacarBlancoInicio (sacarBlancoFinal (sacarBlancosRepetidos (a:as))))
+
+sacarPrimeraPalabraAux :: [Char] -> [Char]
+sacarPrimeraPalabraAux [] = []
+sacarPrimeraPalabraAux (a:as) | a == ' ' = as
+                              | otherwise = sacarPrimeraPalabraAux as
+
+-- 4.a.d
+palabraMasLarga :: [Char] -> [Char]
+palabraMasLarga [] = []
+palabraMasLarga (a:as) | sacarPrimeraPalabra (a:as) == "" = primeraPalabra (a:as)
+                       | longitud (primeraPalabra (a:as)) < longitud (primeraPalabra (sacarPrimeraPalabra (a:as))) = palabraMasLarga (sacarPrimeraPalabra (a:as))
+                       | otherwise = palabraMasLarga ((primeraPalabra (a:as)) ++ [' '] ++ sacarPrimeraPalabra (sacarPrimeraPalabra (a:as)))
