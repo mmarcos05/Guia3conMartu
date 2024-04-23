@@ -1,4 +1,9 @@
 --EJERCICIO 1
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use even" #-}
+{-# HLINT ignore "Eta reduce" #-}
+{-# HLINT ignore "Redundant bracket" #-}
 fibonacci :: Integer -> Integer
 fibonacci n |n == 0 = 0
             |n == 1 = 1
