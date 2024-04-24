@@ -192,3 +192,32 @@ palabraMasLarga [] = []
 palabraMasLarga (a:as) | sacarPrimeraPalabra (a:as) == "" = primeraPalabra (a:as)
                        | longitud (primeraPalabra (a:as)) < longitud (primeraPalabra (sacarPrimeraPalabra (a:as))) = palabraMasLarga (sacarPrimeraPalabra (a:as))
                        | otherwise = palabraMasLarga ((primeraPalabra (a:as)) ++ [' '] ++ sacarPrimeraPalabra (sacarPrimeraPalabra (a:as)))
+
+-- 4.a.e
+aplanar :: [[Char]] -> [Char] -- a partir de una lista de palabras arma una lista de caracteres
+aplanar [] = []
+aplanar (a:as) = a ++ aplanar as
+
+-- 4.a.f
+aplanarConBlancos :: [[Char]] -> [Char]
+aplanarConBlancos [] = []
+aplanarConBlancos [a] = a
+aplanarConBlancos (a:as) = a ++ " " ++ (aplanarConBlancos as)
+
+-- 4.a.g
+aplanarConNBlancos :: [[Char]] -> Int -> [Char]
+aplanarConNBlancos [] _ = []
+aplanarConNBlancos [a] _ = a
+aplanarConNBlancos (a:as) n = a ++ (nBlancos n) ++ (aplanarConNBlancos (as) n)
+
+nBlancos :: Int -> [Char]
+nBlancos n | n == 0 = []
+           | otherwise = ' ' : nBlancos (n-1)
+
+-- 4.b
+-- ¿Como cambian los ejercicios si agregamos el renombre de tipos: type Texto = [Char]?
+type Texto = [Char]
+aplanar2 :: [Texto] -> Texto -- a partir de una lista de palabras arma una lista de caracteres
+aplanar2 [] = []
+aplanar2 (a:as) = a ++ aplanar2 as
+
