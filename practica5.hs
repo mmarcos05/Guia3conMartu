@@ -221,3 +221,29 @@ aplanar2 :: [Texto] -> Texto -- a partir de una lista de palabras arma una lista
 aplanar2 [] = []
 aplanar2 (a:as) = a ++ aplanar2 as
 
+-- Ejercicio 5.1 
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada [] = []
+sumaAcumulada [x] = [x]
+sumaAcumulada (x:y:ys) = x : sumaAcumulada ((x+y):ys)
+
+-- 5.2
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x:xs) = factoresPrimos x : descomponerEnPrimos xs
+
+factoresPrimos :: Integer -> [Integer]
+factoresPrimos x | x <= 1 = []
+                 | esPrimo (fromIntegral x) = [x]
+                 | otherwise = menorDivisor x : factoresPrimos (div x (menorDivisor x))
+
+menorDivisor :: Integer -> Integer
+menorDivisor x = menorDivisorDesde x 2
+
+menorDivisorDesde :: Integer -> Integer -> Integer
+menorDivisorDesde x y | x == y = y
+                      | mod x y == 0 = y
+                      | otherwise = menorDivisorDesde x (y+1)
+
+esPrimo :: Integer -> Bool
+esPrimo x = menorDivisor x == x
