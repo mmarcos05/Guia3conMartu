@@ -161,10 +161,10 @@ palabras [] = []
 palabras (a:as) = primeraPalabra (a:as) : palabras (sacarPrimeraPalabra (sacarBlancosRepetidos(a:as)))
 
 --EJERCICIO 5.1
-sumaAcumulada :: (Num t) => [t] -> [t]
+{--sumaAcumulada :: (Num t) => [t] -> [t]
 sumaAcumulada [] = []
 sumaAcumulada [x] = [x]
-sumaAcumulada (x:y:ys) = x : sumaAcumulada ((x+y):ys)
+sumaAcumulada (x:y:ys) = x : sumaAcumulada ((x+y):ys)--}
 
 --EJERCICIO 5.2
 descomponerEnPrimos :: [Int] -> [[Int]]
@@ -186,3 +186,27 @@ menorDivisorDesde n y| n == y = y
 
 esPrimo :: Int -> Bool
 esPrimo n = menorDivisor n == n 
+
+--EJERCICIO 5.1 (otra forma)
+
+sumaPrimerosKDigitos :: (Num t, Ord t) => t -> [t] -> t 
+sumaPrimerosKDigitos 0 _ = 0
+sumaPrimerosKDigitos _ [] = 0
+sumaPrimerosKDigitos k (x:xs) = (x + (sumaPrimerosKDigitos (k-1) xs))
+
+listaKDigitos :: (Num t, Ord t) => t -> [t] -> [t]
+listaKDigitos 0 _ = []
+listaKDigitos _ [] = []
+listaKDigitos k (x:xs) = sumaPrimerosKDigitos k (x:xs) : []
+
+sumaAcumuladaAux :: (Num t, Ord t) => t -> [t] -> [t]
+sumaAcumuladaAux _ [] = []
+sumaAcumuladaAux k (x:xs) |k > longitud2 (x:xs) = []
+                          |otherwise = listaKDigitos k (x:xs) ++ sumaAcumuladaAux (k + 1) (x:xs)
+
+sumaAcumulada :: (Num t, Ord t) => [t] -> [t]
+sumaAcumulada (x:xs) = sumaAcumuladaAux 1 (x:xs)
+
+longitud2 :: (Num t, Ord t) => [t] -> t
+longitud2 [] = 0
+longitud2 (_:xs) = 1 + longitud2 xs
