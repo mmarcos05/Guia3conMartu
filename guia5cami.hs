@@ -167,7 +167,7 @@ sumaAcumulada [x] = [x]
 sumaAcumulada (x:y:ys) = x : sumaAcumulada ((x+y):ys)--}
 
 --EJERCICIO 5.2
-descomponerEnPrimos :: [Int] -> [[Int]]
+{--descomponerEnPrimos :: [Int] -> [[Int]]
 descomponerEnPrimos [] = []
 descomponerEnPrimos (x:xs) = factoresPrimos x : descomponerEnPrimos xs
 
@@ -185,7 +185,7 @@ menorDivisorDesde n y| n == y = y
                      | otherwise = menorDivisorDesde n (y+1)
 
 esPrimo :: Int -> Bool
-esPrimo n = menorDivisor n == n 
+esPrimo n = menorDivisor n == n --}
 
 --EJERCICIO 5.1 (otra forma)
 
@@ -210,3 +210,25 @@ sumaAcumulada (x:xs) = sumaAcumuladaAux 1 (x:xs)
 longitud2 :: (Num t, Ord t) => [t] -> t
 longitud2 [] = 0
 longitud2 (_:xs) = 1 + longitud2 xs
+
+--EJERCICIO 5.2 (otra forma)
+menorDivisor :: Int -> Int
+menorDivisor n = menorDivisorDesde n 2
+
+menorDivisorDesde :: Int -> Int -> Int
+menorDivisorDesde n y| n == y = y
+                     | mod n y == 0 = y
+                     | otherwise = menorDivisorDesde n (y+1)
+
+esPrimo :: Int -> Bool
+esPrimo n = menorDivisor n == n 
+
+
+factoreo :: Int -> [Int]
+factoreo n |n <= 1 = []
+           |esPrimo n = [n]
+           |otherwise = menorDivisor n : factoreo (div n (menorDivisor n))
+
+descomponerEnPrimos :: [Int] -> [[Int]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x:xs) = [factoreo x] ++ descomponerEnPrimos xs
