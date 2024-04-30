@@ -147,7 +147,7 @@ divisores x y c |x == y = False
 
 --Punto d)
 nEsimoPrimoDesde :: Int -> Int -> Int
-nEsimoPrimoDesde n k |esPrimo k && n == 1 = n
+nEsimoPrimoDesde n k |esPrimo k && n == 1 = k
                      |esPrimo k = nEsimoPrimoDesde (n-1) (k+1)
                      |otherwise = nEsimoPrimoDesde n (k+1)
 
