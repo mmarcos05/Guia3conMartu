@@ -12,8 +12,28 @@ tests = test [
   
   "lista vacia eliminar" ~: (eliminarContacto "ana" []) ~?= [],
   "esta el nombre" ~: (eliminarContacto  "ana" [("ana", "234"), ("pedro", "413")]) ~?= [("pedro", "413")],
-  "no esta" ~: (eliminarContacto  "ana" [("caca", "234"), ("pedro", "4123432")]) ~?= [("caca", "234"), ("pedro", "4123432")]
-    ]
+  "no esta" ~: (eliminarContacto  "ana" [("caca", "234"), ("pedro", "4123432")]) ~?= [("caca", "234"), ("pedro", "4123432")],
+  
+  "no hay lockers" ~: (existeElLocker 10 []) ~?= False , 
+  "está el locker" ~: (existeElLocker 10 [(10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))]) ~?= True , 
+  "no está" ~: (existeElLocker 10 [(9, (Libre, "ABC11")), (11, (Libre, "ABC13"))]) ~?= False , 
+  
+  "no hay lockers" ~: (ubicacionDelLocker 10 []) ~?= [],
+  "no existe el locker" ~: (ubicacionDelLocker 10 [(9, (Libre, "ABC11")), (11, (Libre, "ABC13"))]) ~?= [],
+  "es el primero" ~: (ubicacionDelLocker 10 [(10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))]) ~?= "ABC12" , 
+  "es otro" ~: (ubicacionDelLocker 10 [(9, (Libre, "ABC11")), (10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))]) ~?= "ABC12",
+
+  "no hay lockers" ~: (estaDisponibleElLocker 10 []) ~?= False,
+  "no existe el locker" ~: (estaDisponibleElLocker 10 [(9, (Libre, "ABC11")), (11, (Libre, "ABC13"))]) ~?= False,
+  "es el primero y esta ocupado" ~: (estaDisponibleElLocker 10 [(10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))]) ~?= False,
+  "es el primero y esta libre" ~: (estaDisponibleElLocker 10 [(10, (Libre, "ABC12")), (11, (Libre, "ABC13"))]) ~?= True,
+  "es otro y esta ocupado" ~: (estaDisponibleElLocker 10 [(9, (Libre, "ABC11")), (10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))]) ~?= False,
+  "es otro y esta libre" ~: (estaDisponibleElLocker 10 [(9, (Libre, "ABC11")), (11, (Libre, "ABC13")), (10, (Libre, "ABC12"))]) ~?= True, 
+
+  "es el primero y esta libre" ~: (ocuparLocker 10 [(10, (Libre, "ABC12")), (11, (Libre, "ABC13"))]) ~?= [(10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))] , 
+  "es el primero y esta ocupado" ~: (ocuparLocker 10 [(10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))]) ~?= [(10, (Ocupado, "ABC12")), (11, (Libre, "ABC13"))] , 
+  "es otro" ~: (ocuparLocker 10 [(9, (Libre, "ABC11")), (11, (Libre, "ABC13")), (10, (Libre, "ABC12"))]) ~?= [(9, (Libre, "ABC11")), (11, (Libre, "ABC13")), (10, (Ocupado, "ABC12"))]
+  ]
 
 -- -- EJEMPLOS
 
