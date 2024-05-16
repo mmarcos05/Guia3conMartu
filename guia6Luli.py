@@ -36,9 +36,7 @@ def es_multiplo_de(n:int,m:int) -> bool:
         resultado = False
     return resultado
 
-print (es_multiplo_de(6,2))
-
-#Ejercicio 3.3
+# Ejercicio 3.3
 def es_nombre_largo(nombre:str) -> bool:
     longitud: int = len(nombre)
     condicion: bool = longitud >= 3 and longitud <= 8 
@@ -50,4 +48,17 @@ def es_nombre_largo(nombre:str) -> bool:
     return resultado 
 
 print (es_nombre_largo("francisco"))
+
+# Ejercicio 5.1
+def devolver_el_doble_si_es_par(numero:int) -> int:
+    doble: int = numero * 2
+    condicion: bool = numero % 2 == 0
+    resultado: int
+    if (condicion == True):
+        resultado = doble
+    else: 
+        resultado = numero
+    return resultado
+
+print (devolver_el_doble_si_es_par(4))
 
