@@ -117,6 +117,34 @@ def devolver__valor_si_es_par_sino_el_que_sigue(numero:int) -> int:
 def devolver_el_doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero:int):
     if (numero%9) == 0:
         return numero*3 
+    
+#Ejercicio 5.4
+
+def lindo_nombre(nombre:str) -> str:
+    if len(nombre) >= 5:
+        return"Tu nombre tiene muchas letras"
+    else:
+        return"Tu nombre tiene menos de 5 caracteres"
+
+#Ejercicio 5.5
+
+def elRango(numero:int) -> str:
+    if numero <= 5:
+        return "Menor a 5"
+    elif numero >= 20:
+        return "Mayor a 20"
+    else: 
+        return "Entre 10 y 20"
+
+#Ejercicio 5.6
+
+def vacaciones(sexo:str, edad:int) -> str:
+    if ((sexo == "F") and (18 >= edad) and (edad <= 60)) or ((sexo == "M") and (18 >= edad) and (edad <= 65)):
+        return "Te toca trabajar"
+    else:
+        "Anda de vacaciones"
+        
+#Ejercicio 6
 
 
 
@@ -124,6 +152,5 @@ def devolver_el_doble_si_es_multiplo3_el_triple_si_es_multiplo9(numero:int):
 
 
 
-
-print(sirve_pino(5))
+print(lindo_nombre("marcos"))
 
