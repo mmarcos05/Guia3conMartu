@@ -143,8 +143,25 @@ def borra_pares(lista:list[int]) -> list[int]:
     return lista
 
 # Ejercicio 2.2
+def borra_pares_sin_modificar(lista:list[int]) -> list[int]:
+    nueva_lista: list[int] = []
+    for elemento in lista:
+        if es_par(elemento):
+            nueva_lista.append(0)
+        else:
+            nueva_lista.append(elemento)
+    return nueva_lista
 
 # Ejercicio 2.3
+def borra_vocales(palabra:list[chr]) -> list[chr]:
+    nuevo_texto: str = ""
+    vocales = ['a','e','i','o','u']
+    for i in range (len(palabra)):
+        if not pertenece (vocales, palabra[i]):
+            nuevo_texto += palabra[i]
+    return nuevo_texto
+            
+print (borra_vocales (['h','o','l','a']))
 
 # Ejercicio 2.4
 
@@ -152,9 +169,6 @@ def borra_pares(lista:list[int]) -> list[int]:
 
 # Ejercicio 2.6
 
-
-
-print(tres_vocales_distintas("murcielago"))
 
 # Ejercicio 5.2
 def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
