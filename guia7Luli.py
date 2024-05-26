@@ -1,3 +1,5 @@
+import math
+
 # Ejercicio 1.1
 def pertenece(s:list[int], e:int) -> bool:
     condicion: bool = True
@@ -9,6 +11,13 @@ def pertenece(s:list[int], e:int) -> bool:
             indice += 1
     return False 
 
+# Ejercicio 1.2
+def divide_a_todos (s: list[int], divisor: int) -> bool:
+    for i in range(len(s)):
+        if (not(s[i] % divisor == 0)):
+            return False
+    return True
+
 # Ejercicio 1.3
 def suma_total(lista:list[int]) -> int:
     total: int = 0
@@ -18,6 +27,28 @@ def suma_total(lista:list[int]) -> int:
         total += lista[indice]
         indice += 1
     return total
+
+# Ejercicio 1.4
+def ordenados(numeros:list[int]) -> bool:
+    for i in range (len(numeros)-1):
+        if numeros[i] > numeros[i+1]:
+            return False
+    return True
+
+# Ejercicio 1.5
+def palabras_largas(palabras:list[str]) -> bool:
+    for i in range (len(palabras)):
+        if len(palabras[i]) > 7:
+            return True
+    return False
+
+# Ejercicio 1.6
+def esPalindromo (texto: str) -> bool:
+    longitud: int = len(texto)
+    for i in range(longitud):
+        if texto[i] != texto[longitud - i - 1]:
+            return False
+    return True
 
 # Ejercicio 1.7
 def fortaleza(contraseña:str) -> str:
@@ -60,6 +91,39 @@ def tiene_num(contraseña:str) -> bool:
             indice += 1
     return False
 
+# Ejercicio 1.8
+def saldo_actual(movimientos:list[(str,int)]) -> int:
+    saldo: int = 0
+    longitud: int = len(movimientos)
+    for i in range (0,longitud):
+        if (movimientos[i][0] == 'I'):
+            saldo += movimientos[i][1]
+        elif (movimientos[i][0] == 'R'):
+            saldo -= movimientos[i][1]
+    return saldo
+
+# otra manera de hacerlo
+def saldoActual(operaciones:list[(str,float)]) -> float:
+    saldo2: float = 0
+    for tipo, monto in operaciones:
+        if (tipo == 'I'):
+            saldo2 += monto
+        elif (tipo == 'R'):
+            saldo2 -= monto
+    return saldo2
+
+# Ejercicio 1.9
+def perteneceVocal(vocal: str, palabra: str) -> bool:
+    return (vocal in palabra) or (vocal.upper() in palabra)
+
+def tres_vocales_distintas(palabra:str) -> bool:
+    contador:int = 0
+    vocales = ['a','e','i','o','u']
+    for vocal in vocales:
+        if (perteneceVocal(vocal, palabra) or perteneceVocal(vocal.upper(), palabra)):
+            contador += 1
+    return contador >= 3
+
 # Ejercicio 2.1
 def es_par(numero:int) -> bool:
     if numero % 2 == 0:
@@ -78,6 +142,20 @@ def borra_pares(lista:list[int]) -> list[int]:
             indice += 1
     return lista
 
+# Ejercicio 2.2
+
+# Ejercicio 2.3
+
+# Ejercicio 2.4
+
+# Ejercicio 2.5
+
+# Ejercicio 2.6
+
+
+
+print(tres_vocales_distintas("murcielago"))
+
 # Ejercicio 5.2
 def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
     indice: int = 0
@@ -92,4 +170,3 @@ def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
            indice += 1
     return s 
 
-print (pertenece_a_cada_uno([[5,2,3],[4,5,6],[7,5,9]],5))
