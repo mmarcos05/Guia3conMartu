@@ -183,3 +183,44 @@ def vacaciones_o_trabajo(sexo:chr,edad:int) -> str:
     else:
         print ("Te toca trabajar")
 
+# Ejercicio 6.1
+def numeros1al10() -> None:
+    contador:int = 1
+    while contador <= 10:
+        print(contador)
+        contador += 1 
+
+# Ejercicio 6.2
+def numerosPares10al40() -> None:
+    contador:int = 10
+    while contador <= 40:
+        print(contador)
+        contador += 2
+
+# Ejercicio 6.3
+def eco() -> None:
+    contador:int = 1
+    while contador <= 10:
+        print("eco")
+        contador += 1
+
+# Ejercicio 6.4
+def cuenta_regresiva(inicio:int) -> None:
+    while inicio >= 1:
+        print (inicio)
+        inicio -= 1
+    print("Despegue!")
+
+# Ejercicio 6.5
+def monitor_viaje(a_partida: int, a_llegada: int) -> None:
+    while (a_partida > a_llegada):
+        a_partida -= 1
+        print("Viajo un año al pasado, estamos en el año: " + str(a_partida))
+
+def viaje_artistoteles(a_partida:int) -> None:
+    a_aristoteles:int = (-384)
+    while (a_partida > a_aristoteles):
+        a_partida -= 20
+        print("Viajo veinte años al pasado, estamos en el año: " + str(a_partida))
+
+viaje_artistoteles(2024)
