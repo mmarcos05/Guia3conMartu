@@ -102,6 +102,7 @@ def numeros_pares_2() -> int:
          i+=1
       else:
          i+=1
+         
    return print(i)
 
 print(numeros_pares_2())
