@@ -143,6 +143,10 @@ def borra_pares(lista:list[int]) -> list[int]:
     return lista
 
 # Ejercicio 2.2
+# def borra_pares_sin_modificar(lista:list[int]) -> list[int]:
+#    indice: int = 0
+ #   if (es_par (lista[indice]) == True): 
+#
 
 # Ejercicio 2.3
 
