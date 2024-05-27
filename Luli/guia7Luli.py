@@ -187,6 +187,30 @@ def eliminar_repetidos(palabra:list[chr]) -> list[chr]:
             nuevo_texto.append(palabra[i])
     return nuevo_texto
 
+# Ejercicio 3
+def aprobado(notas:list[int]) -> int:
+    if (mayores_o_iguales(notas) and promedio(notas) >= 7):
+        return 1
+    elif (mayores_o_iguales(notas) and (promedio(notas) >= 4 and promedio(notas) < 7)):
+        return 2
+    else:
+        return 3
+
+def mayores_o_iguales (notas: list[int]) -> bool:
+    for nota in notas:
+        if nota < 4:
+            return False
+    return True
+
+def promedio (notas:list[int]) -> float:
+    suma_notas: int = 0
+    for nota in notas:
+        suma_notas += nota
+    promedio: float = suma_notas / len(notas)
+    return promedio
+
+
+
 # Ejercicio 5.2
 def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
     indice: int = 0
