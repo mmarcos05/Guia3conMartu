@@ -31,7 +31,7 @@ print(pertenece([1,2,3,4],5))
 
 #EJERCICIO 1.2
 
-def divide_a_todos_2(lista:List[int], e:int) -> bool:
+def divide_a_todos_(lista:List[int], e:int) -> bool:
     i:int = 0
     res:bool = False
     longitud = len(lista)
@@ -40,7 +40,7 @@ def divide_a_todos_2(lista:List[int], e:int) -> bool:
             return False
     return True
 
-print(divide_a_todos_2([2,4,6,7,10], 2))
+print(divide_a_todos_([2,4,6,7,10], 2))
 
 
 #EJERCICIO 1.7
