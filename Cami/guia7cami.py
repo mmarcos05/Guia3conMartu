@@ -30,17 +30,17 @@ def pertenece(lista:List[int], numero:int) -> bool:
 print(pertenece([1,2,3,4],5))
 
 #EJERCICIO 1.2
-def divide_a_todos(lista:List[int], e:int) -> bool:
-    i:int = 0
-    longitud = len(lista)
-    res:bool = False
-    while(i>=0 and longitud>i):
-        if lista[i] % e == 0:
-            res = True
-            i+=1
-    return res
 
-print(divide_a_todos([2,4,6,8,10], 2))
+def divide_a_todos_2(lista:List[int], e:int) -> bool:
+    i:int = 0
+    res:bool = False
+    longitud = len(lista)
+    for i in range (longitud):
+        if (lista[i] % e != 0):
+            return False
+    return True
+
+print(divide_a_todos_2([2,4,6,7,10], 2))
 
 
 #EJERCICIO 1.7
