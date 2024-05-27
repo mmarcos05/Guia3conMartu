@@ -1,6 +1,9 @@
+import math as mt
+from typing import List
+
 #EJERCICIO 1.3
 
-def suma_total(lista:list[int]) -> int:
+def suma_total(lista:List[int]) -> int:
     total:int = 0
     ind_actual:int = 0
     longitud:int = len(lista)
@@ -13,7 +16,7 @@ print(suma_total ([1,2,3,4]))
 
 #EJERCICIO 1.1
 
-def pertenece(lista:list[int], numero:int) -> bool:
+def pertenece(lista:List[int], numero:int) -> bool:
     condicion:bool = True
     i:int = 0
     longitud:int = len(lista)
@@ -25,6 +28,20 @@ def pertenece(lista:list[int], numero:int) -> bool:
     return False
 
 print(pertenece([1,2,3,4],5))
+
+#EJERCICIO 1.2
+def divide_a_todos(lista:List[int], e:int) -> bool:
+    i:int = 0
+    longitud = len(lista)
+    res:bool = False
+    while(i>=0 and longitud>i):
+        if lista[i] % e == 0:
+            res = True
+            i+=1
+    return res
+
+print(divide_a_todos([2,4,6,8,10], 2))
+
 
 #EJERCICIO 1.7
 
@@ -84,7 +101,7 @@ def es_par(numero:int) -> bool:
     else:
         return False
 
-def borra_pares(lista:list[int]) -> list[int]:
+def borra_pares(lista:List[int]) -> List[int]:
     i:int = 0
     longitud:int = len(lista)
     while i < longitud:
@@ -100,7 +117,7 @@ print(borra_pares([1,2,3,4,5,6,7]))
 
 #EJERCICIO 5.2
 
-def pertenece_a_cada_uno_version_2(lista:list[list[int]], e:int) -> list[bool]:
+def pertenece_a_cada_uno_version_2(lista:List[List[int]], e:int) -> List[bool]:
     i:int = 0
     longitud:int = len(lista)
     while i < longitud:
