@@ -1,4 +1,5 @@
 import math
+import random
 
 # Ejercicio 1.1
 def pertenece(s:list[int], e:int) -> bool:
@@ -209,7 +210,71 @@ def promedio (notas:list[int]) -> float:
     promedio: float = suma_notas / len(notas)
     return promedio
 
+# Ejercicio 4.1
+def registrar_nombres() -> list[str]:
+    nombres: list[str] = []
+    while True:
+        print("Ingrese el nombre o ponga 'Listo' para terminar: ")
+        ingresado = input()
+        if ingresado != "listo":
+            nombres.append(ingresado)
+        else:
+            return nombres
+# Así se usa la funcion
+# lista_estudiantes = registrar_nombres()
+# print("Lista de estudiantes: ", lista_estudiantes)
 
+# Ejercicio 4.2
+def historial_sube() -> list[(str,float)]:
+    historial: list[(str,float)] = []
+    saldo = 0.0
+    while True:
+        operacion = input("Seleccione: C para cargar credito, D para descontar credito, X para salir")
+        if operacion == 'C':
+            monto = float(input("Monto a cargar: "))
+            historial.append(('C', monto))
+            saldo += monto
+            print(f"Se ha cargado {monto}. Su saldo ahora es {saldo}")
+        elif operacion == 'D':
+            monto = float(input("Monto a descontar: "))
+            historial.append(('D', monto))
+            saldo -= monto
+            print(f"Se ha descontado {monto}. Su saldo ahora es {saldo}")
+        elif operacion == 'X':
+            print("Ha finalizado")
+            break 
+    return historial
+
+# Ejercicio 4.3
+def valor_carta(carta: int) -> float:
+    if carta in [10,11,12]:
+        return 0.5
+    else:
+        return float(carta)
+
+def juego() -> list[int]:
+    historial_de_cartas: list[int] = []
+    mazo: list[int] = [1,2,3,4,5,6,7,10,11,12]
+    puntaje = 0.0
+    while True:
+        carta = random.choice(mazo)
+        historial_de_cartas.append(carta)
+        puntaje += valor_carta(carta)
+        print(f"Obtuviste una {carta}. Puntaje actual: {puntaje}")
+
+        if puntaje > 7.5:
+            print("Te pasaste de 7.5, perdiste!")
+            break
+
+        decision = input("Queres sacar otra carta? Si o no: ").lower()
+        if decision == 'no':
+            print("Ganaste campeón!")
+            break
+
+        return historial_de_cartas
+
+historial = juego
+print("Terminamos. Historial de tus cartas: ", historial)
 
 # Ejercicio 5.2
 def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
