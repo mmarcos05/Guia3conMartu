@@ -160,15 +160,32 @@ def borra_vocales(palabra:list[chr]) -> list[chr]:
         if not pertenece (vocales, palabra[i]):
             nuevo_texto += palabra[i]
     return nuevo_texto
-            
-print (borra_vocales (['h','o','l','a']))
 
 # Ejercicio 2.4
+def reemplaza_vocales(palabra:list[chr]) -> list[chr]:
+    nuevo_texto: list[chr] = []
+    vocales = ['a','e','i','o','u']
+    for char in palabra:
+        if pertenece (vocales, char):
+            nuevo_texto.append('_')
+        else: 
+            nuevo_texto.append(char)
+    return nuevo_texto
 
 # Ejercicio 2.5
+def da_vuelta_str(palabra:list[chr]) -> list[chr]:
+    nuevo_texto: list[chr] = []
+    for i in range (0,len(palabra)):
+        nuevo_texto.append(palabra[len(palabra)-i-1])
+    return nuevo_texto
 
 # Ejercicio 2.6
-
+def eliminar_repetidos(palabra:list[chr]) -> list[chr]:
+    nuevo_texto: list[chr] = []
+    for i in range (0, len(palabra)):
+        if palabra[i] not in nuevo_texto:
+            nuevo_texto.append(palabra[i])
+    return nuevo_texto
 
 # Ejercicio 5.2
 def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
