@@ -1,5 +1,6 @@
 import math
 import random
+import numpy as np
 
 # Ejercicio 1.1
 def pertenece(s:list[int], e:int) -> bool:
@@ -144,14 +145,18 @@ def borra_pares(lista:list[int]) -> list[int]:
     return lista
 
 # Ejercicio 2.2
-def borra_pares_sin_modificar(lista:list[int]) -> list[int]:
-    nueva_lista: list[int] = []
-    for elemento in lista:
-        if es_par(elemento):
-            nueva_lista.append(0)
-        else:
-            nueva_lista.append(elemento)
-    return nueva_lista
+def borra_pares2(lista:list[int]) -> None:
+    i:int = 0
+    longitud:int = len(lista)
+    while i < longitud:
+        if (es_par(i)):
+            lista[i] = 0
+        i += 1
+
+# s = [2,4,5,6,3,3]
+# print (f"antes: {s}")
+# borra_pares2(s)
+# print(f"borra_pares2: {s}")
 
 # Ejercicio 2.3
 def borra_vocales(palabra:list[chr]) -> list[chr]:
@@ -273,8 +278,21 @@ def juego() -> list[int]:
 
         return historial_de_cartas
 
-historial = juego
-print("Terminamos. Historial de tus cartas: ", historial)
+# historial = juego
+# print("Terminamos. Historial de tus cartas: ", historial)
+
+# Ejercicio 5.1
+def pertenece_a_cada_uno_v1(s:list[list[int]], e:int, res:list[bool]) -> None:
+    res.clear()
+    for sublista in s:
+        if pertenece(sublista,e):
+            res.append(True)
+        else:
+            res.append(False)
+
+# resultado: list[bool] = []
+# pertenece_a_cada_uno_v1([[1,2,3],[3,4,1],[5,8,3],[2,5,9]], 2, resultado)
+# print(f"lista de bool: {resultado}")
 
 # Ejercicio 5.2
 def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
@@ -289,3 +307,64 @@ def pertenece_a_cada_uno(s:list[list[int]], e:int) -> list[bool]:
            s.insert(indice,False) 
            indice += 1
     return s
+
+# Ejercicio 5.3
+def es_matriz(s: list[list[int]]) -> bool:
+    # Veo si la lista principal está vacía
+    if len(s) == 0:
+        return False
+    # Veo si la primera sublista está vacía
+    if len(s[0]) == 0:
+        return False
+    # Veo que todas las sublistas tengan la misma longitud
+    longitud_s1 = len(s[0])
+    for sublista in s:
+        if len(sublista) != longitud_s1:
+            return False
+    return True
+
+# s = [
+#    [1,2,3],
+#    [4,5,6],
+#    [7,8,9]
+# ]
+# print(es_matriz(s)) Deberia devolver True
+
+# s2 = [
+#    [1,2,3],
+#    [1,5]
+# ]
+# print(es_matriz(s2)) Deberia devolver False
+
+# Ejercicio 5.4
+def filas_ordenadas(matriz: list[list[int]], res: list[bool]) -> None:
+    res.clear()
+    for fila in matriz:
+        if not ordenados(fila):
+            res.append(False)
+        else:
+            res.append(True)
+# m = [
+#     [1,2,3],
+#     [4,5,6],
+#     [7,6,9]
+# ]
+# res:list[bool] = []
+# filas_ordenadas(m,res)
+# print(res)
+
+# Ejercicio 5.5
+def elevar_matriz_azar(d: int, p: int) -> list[list[int]]:
+    # Creo la matriz de dimension d
+    m = np.random.random((d,d))**2
+
+    # Voy a hacer un print para que me muestre la matriz que creó
+    print(f"Se creo la siguiente matriz: \n {m}")
+
+    # Uso una funcion de numpy para que me eleve la matriz a p
+    resultado = np.linalg.matrix_power(m, p)
+
+    # Hago un print que me muestre la matriz final
+    print(f"El resultado de la matriz elevada a {p}: \n {resultado}")
+
+# elevar_matriz_azar(4,2)
