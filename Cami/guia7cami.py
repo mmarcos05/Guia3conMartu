@@ -154,6 +154,7 @@ print(cuenta_bancaria([('I', 2000), ('R', 20), ('R', 1000), ('I', 300)]))
 
 
 #EJERCICIO 2.1
+#si el NÚMERO es par
 def es_par(numero:int) -> bool:
     if numero % 2 == 0:
         return True
@@ -173,6 +174,21 @@ def borra_pares(lista:List[int]) -> List[int]:
     return lista
 
 print(borra_pares([1,2,3,4,5,6,7]))
+
+#si la POSICIÓN es par
+def reemplaza_pares(lista:List[int]) -> None:
+    i:int = 0
+    longitud:int = len(lista)
+    while i<longitud:
+        if (es_par(i)):
+            lista[i] = 0
+        i += 1
+
+s = [2,4,5,6,3,3]
+print (f"antes: {s}")
+reemplaza_pares(s)
+print(f"remplaza_pares: {s}")
+
 
 #EJERCICIO 2.2
 def borra_pares_2(lista:List[int]) -> List[int]:
@@ -295,6 +311,11 @@ def nombres_estudiantes() -> List[str]:
 
 print(nombres_estudiantes())
 
+#EJERCICIO 4.2
+def sube() -> List[tuple]:
+    monedero:int = 0
+    opciones:str = input(f"")
+
 #EJERCICIO 5.2
 
 def pertenece_a_cada_uno_version_2(lista:List[List[int]], e:int) -> List[bool]:
@@ -312,3 +333,17 @@ def pertenece_a_cada_uno_version_2(lista:List[List[int]], e:int) -> List[bool]:
     return lista
 
 print(pertenece_a_cada_uno_version_2([[1,2], [3,4,5,1], [6,7,8]], 1))
+
+def pertenece_a_cada_uno_profe(s:List[List[int]], e:int, res:List[bool]) -> None:
+    res.clear()
+    for v in s:
+        if pertenece(v,e):
+            res.append(True)
+        else:
+            res.append(False)
+
+
+
+resultados: List[bool] = []
+pertenece_a_cada_uno_profe([[1,2], [3,4,5,1], [6,7,8]], 1, resultados)
+print(resultados)
