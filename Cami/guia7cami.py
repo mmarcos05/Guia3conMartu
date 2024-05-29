@@ -312,9 +312,12 @@ def nombres_estudiantes() -> List[str]:
 print(nombres_estudiantes())
 
 #EJERCICIO 4.2
-def sube() -> List[tuple]:
+"""def sube() -> List[tuple]:
     monedero:int = 0
-    opciones:str = input(f"")
+    opciones:str = input(f"Por favor, seleccione una de las siguientes opciones: \nC = Cargar créditos \nD = Descontar créditos \n X = Finalizar")
+    while opciones != "X":
+        cargar_monto:int = int(input(f"Por favor, establezca el monto deseado para realizar la operación: "))
+        if opciones == "C":"""
 
 #EJERCICIO 5.2
 
