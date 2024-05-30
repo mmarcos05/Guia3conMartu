@@ -1,14 +1,35 @@
 from queue import LifoQueue as Pila
 import random
+import typing
 
 # Ejercicio 1.1
-def contar_lineas(archivo:str) -> int:
-    archivo = open(archivo)
-    lineas = archivo.readlines()
+def contar_lineas(nombre_archivo:str) -> int:
+    archivo: typing.IO = open(archivo, "r")
+    lineas: [str] = archivo.readlines()
     archivo.close()
     return len(lineas)
 
 # print(contar_lineas ("cancion.txt"))
+
+# Ejercicio 2
+def clonar_sin_comentarios(nombre_archivo:str):
+    archivo: typing.IO = open(nombre_archivo,"r")
+    archivo2: typing.IO = open("clonado.txt","w")
+    lineas: list[str] = archivo.readlines()
+
+    for linea in lineas:
+        if (not es_comentario(linea)):
+            archivo2.write(linea)
+
+    archivo.close()
+    archivo2.close()
+    
+def es_comentario(linea:str) -> bool:
+    i:int = 0
+    while(i < len(linea) and linea[i] == ' '):
+        i += 1
+    return i < len(linea) and linea[i] == '#' # Encontre un char que no es blanco y es el numeral
+
 
 # Ejercicios PILAS clase
 def contar_elementos_pila(p:Pila) -> int:
