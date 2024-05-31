@@ -1,6 +1,7 @@
 from queue import LifoQueue as Pila
 import random
 import typing
+import csv
 
 def readLines(archivo:str) -> list[str]:
     archivo = open(archivo, "r")
@@ -179,6 +180,61 @@ def agregar_frase_al_principio(nombre_archivo: str, frase: str) -> None:
 
 # agregar_frase_al_principio("cancion.txt", "Felicidades")
 
+# Ejercicio 7
+def promedio_estudiante(nombre_archivo:str, lu:str) -> float:
+    archivo = open(nombre_archivo,"r")
+    lector = csv.reader(archivo)
+    total_notas = 0
+    cantidad_notas = 0
+
+    for fila in lector:
+        nro_lu, materia, fecha, nota = fila
+        if nro_lu == lu:
+            total_notas += float(nota)
+            cantidad_notas += 1 
+    
+    if cantidad_notas == 0:
+        return 0.0
+    else: return total_notas / cantidad_notas
+
+def calcular_prom_por_estudiante(nombre_archivo_notas: str, nombre_archivo_promedios: str) -> None:
+    estudiantes_cargados: list[str] = []
+
+    archivo_promedios = open(nombre_archivo_promedios,"w")
+    escritor_csv = csv.writer(archivo_promedios)
+    escritor_csv.writerow(['nro de LU', 'promedio'])
+   
+    archivo_notas = open(nombre_archivo_notas, "r")
+    lector_csv_notas = csv.reader(archivo_notas)
+
+    for fila in lector_csv_notas:
+        nro_lu = fila[0]
+        if nro_lu not in estudiantes_cargados:
+            promedio = promedio_estudiante(nombre_archivo_notas, nro_lu)
+            escritor_csv.writerow([nro_lu, promedio])
+            estudiantes_cargados.append(nro_lu)
+
+# Crear el archivo 'notas.csv'
+# with open('notas.csv', 'w', newline='') as archivo_notas:
+#     escritor_csv = csv.writer(archivo_notas)
+#     escritor_csv.writerow(['12345', 'Matemáticas', '2023-03-01', 8.5])
+#     escritor_csv.writerow(['12345', 'Historia', '2023-03-15', 7.0])
+#     escritor_csv.writerow(['67890', 'Literatura', '2023-03-01', 9.0])
+#     escritor_csv.writerow(['67890', 'Física', '2023-03-15', 8.0])
+#     escritor_csv.writerow(['67890', 'Química', '2023-04-01', 7.5])
+#     escritor_csv.writerow(['11223', 'Matemáticas', '2023-03-01', 6.0])
+#     escritor_csv.writerow(['11223', 'Historia', '2023-03-15', 5.5])
+#     escritor_csv.writerow(['12345', 'Física', '2023-04-01', 9.0])
+
+# Crear un archivo 'promedios.csv' vacío
+# with open('promedios.csv', 'w', newline='') as archivo_promedios:
+#     escritor_csv = csv.writer(archivo_promedios)
+#     escritor_csv.writerow(['nro de LU', 'promedio'])
+
+# nombre_archivo_notas = 'notas.csv'
+# nombre_archivo_promedios = 'promedios.csv'
+# calcular_prom_por_estudiante(nombre_archivo_notas, nombre_archivo_promedios)
+
 # Ejercicios PILAS clase
 def contar_elementos_pila(p:Pila) -> int:
     cantidad:int = 0
@@ -221,6 +277,30 @@ def generar_nros_al_azar(cantidad:int, desde:int, hasta:int) -> Pila[int]:
 # print(p.queue)
 # print(f"pila al azar: {list(generar_nros_al_azar(4,8,50).queue)}")
 
+# Ejercicio 9
+def cantidad_elementos(p:Pila) -> int:
+    pAux = Pila()
+    contador = 0
+
+    # voy sacando cada elemento y los cuento
+    while not p.empty():
+        elemento = p.get()
+        pAux.put(elemento)
+        contador += 1
+    
+    # restauro la pila original
+    while not pAux.empty():
+        p.put(pAux.get())
+    
+    return contador
+
+# mi_pila = Pila()
+# mi_pila.put(2)
+# mi_pila.put(9)
+# mi_pila.put(7)
+
+# print(cantidad_elementos(mi_pila))
+
 # Ejercicio 10
 def buscar_el_maximo(p:Pila[int]) -> int:
     pAux = Pila()
@@ -240,3 +320,23 @@ def buscar_el_maximo(p:Pila[int]) -> int:
 # pila.put(1)
 # pila.put(6)
 # print(buscar_el_maximo(pila))
+
+# Ejercicio 11
+def esta_bien_balanceada(s:str) -> bool:
+    pila = Pila()
+
+    for char in s:
+        if char == '(':
+            pila.put(char) #Si hay un '(' lo agrega a una pila
+        elif char == ')':
+            if pila.empty(): #Si no hay un ')' entonces ya es False
+                return False
+            pila.get() #Si hay un ')' entonces saca el '(' que pusimos antes (los voy cancelando)
+    
+    return pila.empty() #Si al final me queda vacia, quiere decir que estan bien balanceados (por cada '(' hay un ')')
+
+# print(esta_bien_balanceada("1 + ( 2 x 3 − ( 20 / 5 ) )"))  # True
+# print(esta_bien_balanceada("10 * ( 1 + ( 2 * ( -1)))"))    # True
+# print(esta_bien_balanceada("1 + ) 2 x 3 ( ( )"))           # False
+# print(esta_bien_balanceada("((()))"))                      # True
+# print(esta_bien_balanceada("(()"))                         # False
