@@ -2,6 +2,7 @@ from queue import LifoQueue as Pila
 import random
 import typing
 from typing import List
+from queue import Queue as Cola
 
 #EJERCICIO 1.1
 def contar_lineas(nombre_archivo:str) -> int:
@@ -255,6 +256,7 @@ p.put(4)
 #print(buscar_el_maximo(p))
 
 #EJERCICIO 11
+
 def esta_bien_balanceada(s:str) -> bool:
     pila:Pila[chr] = Pila()
     for caracter in s:
@@ -270,4 +272,47 @@ def esta_bien_balanceada(s:str) -> bool:
 #print(esta_bien_balanceada("1 + (2 x 3 - (20 / 5))"))
 #print(esta_bien_balanceada("10 ∗ ( 1 + ( 2 ∗ ( −1)))"))
 #print(esta_bien_balanceada("1 + ) 2 x 3 ( ( )"))
-    
+
+#EJERCICIO 12
+"""def pertenece2(a:chr, b: str) -> bool:
+    indice: int = 0
+    while indice < len(b):
+        if b[indice] == a:
+            return True
+        else: indice += 1
+    return False"""
+
+def evaluar_expresion(s:str) -> float:
+    operadores:List = ['+', '-', '*', '/']
+    pila:Pila[int] = Pila()
+    total:int = 0
+    for caracter in s:
+        if (not pertenece(caracter, operadores)) and (caracter != ' '):
+            pila.put(caracter)
+        elif pertenece(caracter, operadores):
+            if caracter == '+':
+                total = (int(pila.get()) + int(pila.get()))
+                pila.put(total)
+            elif  caracter == '-':
+                total = - (int(pila.get()) - int(pila.get()))
+                pila.put(total)
+            elif  caracter == '*':
+                total = (int(pila.get()) * int(pila.get()))
+                pila.put(total)
+            else:
+                total = (int(pila.get()) / int(pila.get()))
+                pila.put(total)
+    return int(pila.get())
+
+#print(evaluar_expresion("3 4 + 5 * 2 -"))
+
+#EJERCICIO 13
+def armar_cola(lista:List[int]) -> Cola:
+    c = Cola()
+    i:int = 0
+    longitud:int = len(lista)
+    for i in range (longitud):
+        c.put(lista[i])
+    return c
+
+print(armar_cola([1,2,3,4,5]))
