@@ -10,7 +10,7 @@ def contar_lineas(nombre_archivo:str) -> int:
     archivo.close()
     return len(archivo_lineas)
 
-print(contar_lineas("archivo.txt"))
+#print(contar_lineas("archivo.txt"))
 
 #EJERCICIO 1.2
 def pertenece(a:str, b: List[str]) -> bool:
@@ -59,7 +59,7 @@ def clonar_sin_comentarios(nombre_archivo:str) -> None:
     print(contenido)
     nuevo_archivo.close()
 
-clonar_sin_comentarios("ejemplo_clonado.py")
+#clonar_sin_comentarios("ejemplo_clonado.py")
         
         
 #EJERCICIO 3
@@ -113,7 +113,7 @@ def invertir_lineas(nombre_archivo:str) -> None:
     print(contenido)
     nuevo_archivo.close()
 
-invertir_lineas("ejemplo_clonado.py")
+#invertir_lineas("ejemplo_clonado.py")
 
 #EJERCICIO 4
 def agregar_frase_al_final(nombre_archivo:str, frase:str) -> None:
@@ -138,35 +138,68 @@ def agregar_frase_al_final(nombre_archivo:str, frase:str) -> None:
 #agregar_frase_al_final("archivo.txt", "esta es una prueba")
 
 #EJERCICIO 5
-"""def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
-    archivo:typing.IO = open(nombre_archivo, 'r')
-    lineas:List[str] = archivo.readlines()
-    cantidad_lineas:int = len(lineas)
+def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
+    archivo = open(nombre_archivo, 'r')
+    contenido = archivo.read()
     archivo.close()
     
-    archivo:typing.IO = open(nombre_archivo, 'w')
-    archivo.write(lineas[cantidad_lineas - 1])
-    archivo.close()
-
-    archivo:typing.IO = open(nombre_archivo, 'r')
-    lineas:List[str] = archivo.readlines()
-    cantidad_lineas:int = len(lineas)
-    archivo.close()
-
-    archivo:typing.IO = open(nombre_archivo, 'a')
-
-    while cantidad_lineas >= 0:
-        lineas[cantidad_lineas - 2] = lineas[cantidad_lineas - 3]
-        cantidad_lineas -= 1
-    lineas[0] = frase
+    archivo = open(nombre_archivo, 'w')
+    archivo.write(frase + '\n' + contenido)
     archivo.close()
 
     archivo = open(nombre_archivo, 'r')
-    contenido = archivo.read()
-    print(contenido)
+    contenidofinal = archivo.read()
+    print(contenidofinal)
     archivo.close()
 
-agregar_frase_al_principio("archivo.txt", "esta es una prueba")"""
+#agregar_frase_al_principio("feliz_cumple.txt", "esta es una prueba")
+
+#EJERCICIO 6
+"""def listar_palabras_de_archivo(nombre_archivo:str) -> List:
+    lista:List = []
+    i:int = 0
+    archivo_binario = open(nombre_archivo, 'r')
+    contenido_binario = archivo_binario.read()
+    contenido = chr(contenido_binario)
+    archivo_binario.close()
+
+    archivo = open("nuevo.txt", 'w')
+    archivo.write(contenido)
+    lineas:List = archivo.readlines()
+    cantidad_lineas:int = len(lineas)
+
+    while cantidad_lineas - 1 > i:
+        if len(lineas[i]) > 5:
+            if (pertenece("_", lineas[i]) and pertenece(" ", lineas[i])):
+                lista.append(lineas[i])
+                i+=1
+        i+=1
+    return lista"""
+
+#EJERCICIO 7
+"""def promedio_estudiante(nombre_archivo, lu:str) -> float:
+    archivo = open(nombre_archivo, 'r')
+    lineas:List = archivo.readlines()
+    i:int = 0
+    total:int = 0
+    cantidad_materias:int = 0
+    cantidad_lineas:int = len(lineas)
+
+    while (cantidad_lineas - 1) > i:
+        if (lineas[i])[0] == lu:
+            total += (lineas[i])[3]
+            cantidad_materias += 1
+            i += 1
+        else:
+            i += 1
+    archivo.close()
+    if cantidad_materias == 0:
+        return 0.0
+    else:
+        return (total/cantidad_materias)
+
+print(promedio_estudiante("notas.csv", "67890"))"""
+
 
 
 #EJERCICIO 8
@@ -178,7 +211,7 @@ def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
 
 p = generar_nros_al_azar(5, 20, 40)
 
-print(p.get())
+#print(p.get())
 
 #EJERCICIO 9
 def cantidad_elementos(p:Pila) -> int:
@@ -198,7 +231,7 @@ h.put(7)
 h.put(1)
 h.put(4)
 
-print(cantidad_elementos(h))
+#print(cantidad_elementos(h))
 
 #EJERCICIO 10
 def buscar_el_maximo(p:Pila[int]) -> int:
@@ -219,8 +252,22 @@ p.put(7)
 p.put(1)
 p.put(4)
 
-print(buscar_el_maximo(p))
+#print(buscar_el_maximo(p))
 
 #EJERCICIO 11
-#def esta_bien_balanceada(s:str) -> bool:
+def esta_bien_balanceada(s:str) -> bool:
+    pila:Pila[chr] = Pila()
+    for caracter in s:
+        if caracter == '(':
+            pila.put(caracter)
+        elif caracter == ')':
+            if pila.empty():
+                return False
+            else:
+                pila.get()
+    return pila.empty()
+
+#print(esta_bien_balanceada("1 + (2 x 3 - (20 / 5))"))
+#print(esta_bien_balanceada("10 ∗ ( 1 + ( 2 ∗ ( −1)))"))
+#print(esta_bien_balanceada("1 + ) 2 x 3 ( ( )"))
     
