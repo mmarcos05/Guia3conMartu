@@ -461,7 +461,7 @@ def jugar_carton_de_bingo(carton: list[int], bolillero: Cola[int]) -> int:
     while not bolillero.empty():
         bolilla = bolillero.get()
         jugadas += 1
-        for i in range(len(carton) - 1, -1, -1):
+        for i in range(len(carton) - 1, -1, -1): # recorre la lista del ultimo al primero (va desde len-1 hasta el -1(no inclusive) y va saltando de a 1 para atras)
             if carton[i] == bolilla:
                 carton.pop(i)
                 break
