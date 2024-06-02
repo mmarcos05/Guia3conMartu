@@ -1,4 +1,5 @@
 from queue import LifoQueue as Pila
+from queue import Queue as Cola
 import random
 import typing
 import csv
@@ -8,7 +9,7 @@ def readLines(archivo:str) -> list[str]:
     lineas = archivo.readlines()
 #    print(lineas)
     
-readLines("cancion.txt")
+# readLines("cancion.txt")
 
 # Ejercicio 1.1
 def contar_lineas(nombre_archivo:str) -> int:
@@ -340,3 +341,241 @@ def esta_bien_balanceada(s:str) -> bool:
 # print(esta_bien_balanceada("1 + ) 2 x 3 ( ( )"))           # False
 # print(esta_bien_balanceada("((()))"))                      # True
 # print(esta_bien_balanceada("(()"))                         # False
+
+# Ejercicio 12
+def es_numero_operando(caracter:chr) -> bool:
+    numeros: str = "0123456789"
+    if caracter in numeros:
+        return True
+    else:
+        return False
+    
+def es_operador(caracter:str) -> bool:
+    operadores: list[str] = ["+","-","*","/"]
+    if pertenece (caracter,operadores):
+        return True
+    else: 
+        return False
+    
+def evaluar_expresion(s:str) -> float:
+    pila = Pila()
+    separador: list[str] = separar_en_palabras(s)
+    
+    for char in separador:
+        if es_numero_operando(char):
+            pila.put(float(char))
+        elif es_operador(char):
+            operando2 = pila.get()
+            operando1 = pila.get()
+        
+            if char == '+':
+                res = operando1 + operando2
+            elif char == '-':
+                res = operando1 - operando2
+            elif char == '*':
+                res = operando1 * operando2
+            elif char == '/':
+                res = operando1 / operando2
+
+            pila.put(res)
+
+    return pila.get()
+        
+# print(evaluar_expresion("3 4 + 5 * 2 -"))
+
+# COLAS
+def copiar_cola(c:Cola) -> Cola:
+    cAux = Cola()
+    res = Cola()
+    while (not c.empty()):
+        elem = c.get()
+        res.put(elem)
+        cAux.put(elem)
+    
+    while not cAux.empty():
+        c.put(cAux.get())
+
+    return res
+
+# Ejercicio 13
+def cola_de_enteros(cantidad, desde, hasta) -> None:
+    c = Cola()
+    p = generar_nros_al_azar(cantidad, desde, hasta)
+    while not p.empty():
+        c.put(p.get())  
+    return c
+
+# cola = generar_nros_al_azar(6,3,58)
+# print(cola.queue)
+
+# Ejercicio 14
+def cantidad_elementos_cola(c:Cola) -> int:
+    copia: Cola = copiar_cola(c)
+    cAux = Cola()
+    contador = 0
+
+    while not (copia.empty()):
+        elemento = copia.get()
+        cAux.put(elemento)
+        contador += 1
+
+    while not (cAux.empty()):
+        c.put(cAux.get())
+
+    return contador
+
+# cola = Cola()
+# cola.put(341)
+# cola.put(8)
+# cola.put(23)
+# print(cantidad_elementos_cola(cola))
+
+# Ejercicio 15
+def buscar_el_max_cola(c:Cola[int]) -> int:
+    copia: Cola = copiar_cola(c)
+    maximo: int = c.get() #Agarro el primero que tengo q sacar y ese va a ser mi maximo por ahora
+
+    while not copia.empty():
+        elemento = copia.get() #Agarro el proximo elemento a sacar y me fijo con el que habia agarrado antes
+        if elemento > maximo: 
+            maximo = elemento
+    return maximo
+
+# cola = Cola()
+# cola.put(3)
+# cola.put(56)
+# cola.put(233)  
+# print(buscar_el_max_cola(cola))
+
+# Ejercicio 16 
+# Bingo: un carton de bingo contiene 12 numeros al azar en el rango [0, 99]
+def armar_secuencia_de_bingo() -> Cola[int]:
+    return cola_de_enteros(100,0,99)
+
+# cola = armar_secuencia_de_bingo()
+# print(cola.queue)
+
+def jugar_carton_de_bingo(carton: list[int], bolillero: Cola[int]) -> int:
+    jugadas = 0
+
+    while not bolillero.empty():
+        bolilla = bolillero.get()
+        jugadas += 1
+        for i in range(len(carton) - 1, -1, -1): # recorre la lista del ultimo al primero (va desde len-1 hasta el -1(no inclusive) y va saltando de a 1 para atras)
+            if carton[i] == bolilla:
+                carton.pop(i)
+                break
+        if len(carton) == 0:
+            break
+    return jugadas
+
+# Armo el bolillero
+# bolillero = armar_secuencia_de_bingo()
+
+# Armo el carton
+# carton = random.sample(range(0,100# ),12)
+# print(f"Carton de bingo: {carton}"# )
+
+# jugadas_para_ganar = jugar_carton_de_bingo(carton, bolillero)
+# print(f"Para ganar necesitas {jugadas_para_ganar} jugadas")
+
+# PREGUNTAR SI ESTA BIEN QUE SIEMPRE ME DE 100
+
+# Ejercicio 17
+def n_pacientes_urgentes(c:Cola[(int,str,str)]) -> int:
+    copia: Cola = copiar_cola(c)
+    cAux = Cola()
+    contador = 0
+
+    while not copia.empty():
+        paciente: tuple = copia.get()
+        if isinstance(paciente,tuple) and len(paciente) == 3:
+            prioridad, nombre, especialidad = paciente 
+            if (1 <= prioridad <= 3):
+                contador += 1
+            cAux.put(paciente)
+
+    while not cAux.empty():
+        copia.put(cAux.get())
+
+    return contador
+
+
+def n_pacientes_urgentes2(c:Cola[(int,str,str)]) -> int:
+    copia: Cola = copiar_cola(c)
+    contador = 0
+
+    while not copia.empty():
+        prioridad, _, _ = copia.get()
+        if 1 <= prioridad <= 3:
+            contador += 1
+    return contador
+
+def n_pacientes_urgentes3(c:Cola[(int,str,str)]) -> int:
+    copia_cola: Cola = copiar_cola(c)
+    contador = 0
+
+    while not copia_cola.empty():
+        datos_paciente: tuple[int,str,str] = copia_cola.get()
+        prioridad:int = datos_paciente[0]
+
+        if 1 <= prioridad <= 3:
+            contador += 1
+    return contador
+    
+# cola_pacientes = Cola()
+# cola_pacientes.put((10, "juan", "cardio"))
+# cola_pacientes.put((9, "sofia", "pediatria"))
+# cola_pacientes.put((3, "pedro", "neuro"))
+# cola_pacientes.put((1, "marta", "cardio"))
+# cola_pacientes.put((2, "luis", "trauma"))
+# cola_pacientes.put((7, "ana", "cardio"))
+# print(n_pacientes_urgentes2(cola_pacientes))
+
+# Ejercicio 18
+def atencion_a_clientes(c:Cola[(str,int,bool,bool)]) ->  Cola[(str, int, bool, bool)]:
+    copia_cola: Cola = copiar_cola(c)
+    res: Cola = Cola()
+
+    cola_prioridad = Cola()
+    cola_preferencial = Cola()
+    cola_resto = Cola()
+
+    while not copia_cola.empty():
+        datos_cliente: tuple[str,int,bool,bool] = copia_cola.get()
+        preferencial: bool = datos_cliente[2]
+        prioridad: bool = datos_cliente[3]
+        if prioridad == True:
+            cola_prioridad.put(datos_cliente)
+        elif preferencial == True:
+            cola_preferencial.put(datos_cliente)
+        else: 
+            cola_resto.put(datos_cliente)
+
+    # Si hay, ongo primero a los que tienen prioridad
+    while not cola_prioridad.empty():
+        res.put(cola_prioridad.get())
+
+    # Si hay, pongo despues a los que tienen cuenta preferencial
+    while not cola_preferencial.empty():
+        res.put(cola_preferencial.get())
+
+    # Pongo al resto
+    while not cola_resto.empty():
+        res.put(cola_resto.get()) 
+    
+    return res
+
+#cola_clientes = Cola()
+#cola_clientes.put(("Juan", 12345678, False, True))  # Prioridad
+#cola_clientes.put(("Ana", 23456789, True, False))   # Preferencial
+#cola_clientes.put(("Luis", 34567890, False, False))
+#cola_clientes.put(("Maria", 45678901, True, False))  # Preferencial
+#cola_clientes.put(("Carlos", 56789012, False, False))
+#cola_clientes.put(("Sofia", 67890123, False, True))  # Prioridad
+
+# cola_atencion = atencion_a_clientes(cola_clientes)
+
+# print("Cola de atencion resultante:")
+# while not cola_atencion.empty():
+#     print(cola_atencion.get())
