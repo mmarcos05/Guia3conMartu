@@ -579,3 +579,125 @@ def atencion_a_clientes(c:Cola[(str,int,bool,bool)]) ->  Cola[(str, int, bool, b
 # print("Cola de atencion resultante:")
 # while not cola_atencion.empty():
 #     print(cola_atencion.get())
+
+# EJERCICIOS DICCIONARIOS
+# Ejercicio 19
+def separar_en_palabras_sin_enter(linea: str) -> list:
+    palabras = []
+    palabra = ""
+    for caracter in linea:
+        if caracter == ' ' or caracter == '"' or caracter == '\n':
+            if palabra:  # Añade solo si palabra no está vacía
+                palabras.append(palabra)
+                palabra = ''
+        else: 
+            palabra += caracter
+    if palabra:  # Añadir la última palabra si no está vacía
+        palabras.append(palabra)
+    return palabras
+
+def agrupar_por_longitud(nombre_archivo:str) -> dict:
+    archivo = open(nombre_archivo, "r")
+    linea:str 
+    diccionario: dict = dict()
+
+    for linea in archivo:
+        palabras = separar_en_palabras_sin_enter(linea)
+        for palabra in palabras:
+            if pertenece(len(palabra), list(diccionario.keys())):
+                diccionario[len(palabra)] += 1
+            else:
+                diccionario[len(palabra)] = 1
+    archivo.close()
+    return diccionario
+
+# print(agrupar_por_longitud("prueba.txt"))
+
+# Ejercicio 20
+def calcular_promedio_por_estudiante(nombre_archivo_notas:str) -> dict[str,float]:
+    diccionario_promedios: dict[str,float] = dict()
+    archivo_notas: typing.IO = open(nombre_archivo_notas,"r")
+    lector_csv_notas = csv.reader(archivo_notas)
+    estudiantes_cargados: list[str] = []
+
+    for fila in lector_csv_notas:
+        nro_lu = fila[0]
+        if not pertenece(nro_lu,estudiantes_cargados):
+            promedio:float = promedio_estudiante(nombre_archivo_notas, nro_lu)
+            diccionario_promedios[nro_lu] = promedio
+            estudiantes_cargados.append(nro_lu)
+
+    archivo_notas.close()
+    return diccionario_promedios
+
+# archivo = open("notas.csv","r")
+# print(calcular_promedio_por_estudiante("notas.csv"))
+
+# Ejercicio 21
+# Armo un diccionario que me diga cuantas veces aparece cada palabra y me fijo que valor es mas alto
+def cantidad_de_apariciones(nombre_archivo:str) -> dict:
+    diccionario_palabras: dict = dict()
+    archivo: typing.IO = open(nombre_archivo,"r")
+    
+    for linea in archivo:
+        palabras: list[str] = separar_en_palabras_sin_enter(linea)
+        for palabra in palabras:
+            if pertenece(palabra, list(diccionario_palabras.keys())):
+                diccionario_palabras[palabra] += 1
+            else:
+                diccionario_palabras[palabra] = 1  
+
+    archivo.close()
+    return diccionario_palabras
+
+# archivo = open("prueba.txt","r")
+# print(cantidad_de_apariciones("prueba.txt"))
+
+def la_palabra_mas_frecuente(nombre_archivo:str) -> str:
+    diccionario_palabras:dict = cantidad_de_apariciones(nombre_archivo)
+    maximo_actual:int = 0
+    palabra_frecuente: str = ""
+
+    for palabra, cantidad in diccionario_palabras.items():
+        if cantidad > maximo_actual:
+            maximo_actual = cantidad
+            palabra_frecuente = palabra
+
+    return palabra_frecuente
+
+# print(la_palabra_mas_frecuente("prueba.txt"))
+
+# Ejercicio 22
+def visitar_sitio(historiales:dict[str, Pila[str]], usuario:str, sitio:str) -> None:
+    if not pertenece(usuario, list(historiales.keys())):
+        historiales[usuario] = Pila()
+    historiales[usuario].put(sitio)
+
+
+def navegar_atras(historiales:dict[str, Pila[str]], usuario:str) -> None:
+    if not pertenece(usuario, list(historiales.keys())):
+        print(f"El usuario {usuario} no tiene historial")
+
+    if historiales[usuario].empty():
+        print(f"No hay sitios anteriores en el historial de {usuario}")
+    
+    historiales[usuario].get() # Descarto el ultimo
+    if not historiales[usuario].empty():
+        anterior_sitio_visitado = historiales[usuario].get() # Ahora si agarro el que era el anteúltimo
+        historiales[usuario].put(anterior_sitio_visitado) # Lo convierto en el ultimo para que me lo imprima
+        print(f"Navegaste hacia atras a {anterior_sitio_visitado} en el historial de {usuario}")
+    else:
+        print(f"Es el principio del historial de navegacion de {usuario}")
+        
+# historiales = {}
+# visitar_sitio(historiales, "user1", "instagram.com")
+# visitar_sitio(historiales, "user2", "facebook.com")
+# visitar_sitio(historiales, "user1", "whatsapp.com")
+# pila1 = historiales["user1"]
+# pila2 = historiales["user2"]
+ 
+# print(f'Historial de user1: {pila1.queue}')
+# print(f'Historial de user2: {pila2.queue}')
+ 
+# navegar_atras(historiales, "user1")
+# navegar_atras(historiales, "user2")
