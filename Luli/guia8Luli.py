@@ -455,31 +455,34 @@ def armar_secuencia_de_bingo() -> Cola[int]:
 # cola = armar_secuencia_de_bingo()
 # print(cola.queue)
 
-def jugar_carton_de_bingo(carton: list[int], bolillero: Cola[int]) -> int:
-    jugadas = 0
+def pertenece_num(numero:int, lista:list[int]) -> bool:
+    for i in lista:
+        if numero == i:
+            return True
+    return False
 
-    while not bolillero.empty():
-        bolilla = bolillero.get()
-        jugadas += 1
-        for i in range(len(carton) - 1, -1, -1): # recorre la lista del ultimo al primero (va desde len-1 hasta el -1(no inclusive) y va saltando de a 1 para atras)
-            if carton[i] == bolilla:
-                carton.pop(i)
-                break
-        if len(carton) == 0:
-            break
+def jugar_carton_de_bingo(carton:list[int], bolillero:Cola) -> int:
+    bolilla = bolillero.get()
+    jugadas:int = 0
+    bingo:int = 0
+
+    while 12 > bingo:
+        if pertenece_num(bolilla, carton):
+            bingo += 1
+            jugadas += 1
+        else:
+            jugadas += 1
     return jugadas
 
 # Armo el bolillero
-# bolillero = armar_secuencia_de_bingo()
+b = armar_secuencia_de_bingo()
 
 # Armo el carton
-# carton = random.sample(range(0,100# ),12)
-# print(f"Carton de bingo: {carton}"# )
+c = random.sample(range(0,100),12)
+# print(f"Carton de bingo: {carton}")
 
-# jugadas_para_ganar = jugar_carton_de_bingo(carton, bolillero)
-# print(f"Para ganar necesitas {jugadas_para_ganar} jugadas")
+print(jugar_carton_de_bingo(c,b))
 
-# PREGUNTAR SI ESTA BIEN QUE SIEMPRE ME DE 100
 
 # Ejercicio 17
 def n_pacientes_urgentes(c:Cola[(int,str,str)]) -> int:
@@ -701,3 +704,4 @@ def navegar_atras(historiales:dict[str, Pila[str]], usuario:str) -> None:
  
 # navegar_atras(historiales, "user1")
 # navegar_atras(historiales, "user2")
+
