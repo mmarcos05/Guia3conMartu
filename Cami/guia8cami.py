@@ -8,7 +8,7 @@ def contar_lineas(nombre_archivo:str) -> int:
     archivo.close()
     return len(archivo_lineas)
 
-print(contar_lineas("archivo.txt"))
+#print(contar_lineas("archivo.txt"))
 
 #EJERCICIO 8
 def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
@@ -39,7 +39,7 @@ h.put(7)
 h.put(1)
 h.put(4)
 
-print(cantidad_elementos(h))
+#print(cantidad_elementos(h))
 
 #EJERCICIO 10
 def buscar_el_maximo(p:Pila[int]) -> int:
@@ -60,7 +60,7 @@ p.put(7)
 p.put(1)
 p.put(4)
 
-print(buscar_el_maximo(p))
+#print(buscar_el_maximo(p))
 
 #EJERCICIO 11
 #def esta_bien_balanceada(s:str) -> bool:

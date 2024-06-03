@@ -5,7 +5,7 @@ import typing
 # Ejercicio 1.1
 def contar_lineas(nombre_archivo:str) -> int:
     archivo: typing.IO = open(archivo, "r")
-    lineas: [str] = archivo.readlines()
+    lineas: list[str] = archivo.readlines()
     archivo.close()
     return len(lineas)
 
@@ -69,9 +69,9 @@ def generar_nros_al_azar(cantidad:int, desde:int, hasta:int) -> Pila[int]:
         p.put(random.randint(desde,hasta))
     return p
 
-# p = generar_nros_al_azar(4,8,50)
-# print(p.queue)
-# print(f"pila al azar: {list(generar_nros_al_azar(4,8,50).queue)}")
+p = generar_nros_al_azar(4,8,50)
+print(p.queue)
+#print(f"pila al azar: {list(generar_nros_al_azar(4,8,50).queue)}")
 
 # Ejercicio 10
 def buscar_el_maximo(p:Pila[int]) -> int:
