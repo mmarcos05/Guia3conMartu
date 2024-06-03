@@ -1,7 +1,7 @@
 from queue import LifoQueue as Pila
 import random
 import typing
-from typing import List
+from typing import List, Tuple
 from queue import Queue as Cola
 
 #EJERCICIO 1.1
@@ -415,5 +415,91 @@ b:Cola = armar_secuencia_de_bingo()
 #print(jugar_carton_de_bingo(c, b))
 
 #EJERCICIO 17
-#def n_pacientes_urgentes(c:Cola) -> int:
+def n_pacientes_urgentes(c:Cola) -> int:
+    cola:Cola = copiar_cola(c)
+    rango:List[int] = [1, 2, 3]
+    urgentes:int = 0
+    while not cola.empty():
+        elemento = cola.get()
+        if pertenece_num(elemento[0], rango):
+            urgentes += 1
+    return urgentes
 
+c = Cola()
+c.put((1, "camila", "cardio"))
+c.put((5, "marcela", "cirugia"))
+c.put((1, "nicole", "plastico"))
+c.put((2, "gabriel", "clinica"))
+c.put((3, "wendy", "trauma"))
+
+#print(n_pacientes_urgentes(c))
+
+#EJERCICIO 18
+def clientes() -> Cola:
+    c:Cola = Cola()
+    nuevo_cliente:str = input(f"¿Quiere registrarse?: ")
+    datos:Tuple[str, int, bool, bool] = ("hola", 0, True, False)
+    datos_lista = list(datos)
+
+    while nuevo_cliente == "si":
+        nombre:str = input(f"Por favor, ingrese su nombre y apellido: ")
+        datos_lista[0] = nombre
+        dni:int = input(f"Por favor, ingrese su DNI sin espacios: ")
+        datos_lista[1] = dni
+        cuenta:str = input(f"¿Tiene cuenta preferencial, sí o no?: ")
+        if cuenta == "si":
+            datos_lista[2] = True
+        else:
+            datos_lista[2] = False
+        prioridad:str = input(f"Si cumple alguna de las siguientes condiciones responda 'si', en caso contrario responda 'no':\nAdulto +65\nEmbarazada\nMovilidad Reducida\n")
+        if prioridad == "si":
+            datos_lista[3] = True
+        else:
+            datos_lista[3] = False
+        datos_modificado = tuple(datos_lista)
+        c.put(datos_modificado)
+        nuevo_cliente:str = input(f"¿Quiere registrarse?: ")
+    return c
+
+#cola = clientes()
+#print(cola.queue)
+
+
+def atencion_a_clientes(c:Cola) -> Cola:
+    cola:Cola = copiar_cola(c)
+    cola_prioridad_y_cuenta:Cola = Cola()
+    cola_prioridad:Cola = Cola()
+    cola_cuenta:Cola = Cola()
+    cola_resto:Cola = Cola()
+    cola_final:Cola = Cola()
+
+    # Clasificar clientes en las colas correspondientes
+    while not cola.empty():
+        elemento = cola.get()
+        if (elemento[2] == True) and (elemento[3] == True):  # Prioridad y cuenta
+            cola_prioridad_y_cuenta.put(elemento)
+        elif (elemento[2] == False) and (elemento[3] == True):  # Prioridad
+            cola_prioridad.put(elemento)
+        elif (elemento[2] == True) and (elemento[3] == False):  # Cuenta
+            cola_cuenta.put(elemento)
+        else:  # Resto
+            cola_resto.put(elemento)
+
+    # Unir todas las colas en el orden especificado
+    while not cola_prioridad_y_cuenta.empty():
+        elemento = cola_prioridad_y_cuenta.get()
+        cola_final.put(elemento)
+    while not cola_prioridad.empty():
+        elemento = cola_prioridad.get()
+        cola_final.put(elemento)
+    while not cola_cuenta.empty():
+        elemento = cola_cuenta.get()
+        cola_final.put(elemento)
+    while not cola_resto.empty():
+        elemento = cola_resto.get()
+        cola_final.put(elemento)
+    return cola_final
+
+c = clientes()
+cola_atencion = atencion_a_clientes(c)
+print(cola_atencion.queue)
