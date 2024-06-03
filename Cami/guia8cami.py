@@ -212,7 +212,9 @@ def copiar_pila(p:Pila) -> Pila:
         pila_aux.put(p.get())
     
     while not pila_aux.empty():
-        res.put(pila_aux.get())
+        val = pila_aux.get()
+        p.put(val)
+        res.put(val)
     return res
 
 
@@ -326,7 +328,9 @@ def copiar_cola(c:Cola) -> Cola:
         cola_aux.put(c.get())
     
     while not cola_aux.empty():
-        res.put(cola_aux.get())
+        val = cola_aux.get()
+        c.put(val)
+        res.put(val)
     return res
 
 def armar_cola(cantidad, desde, hasta) -> None:
