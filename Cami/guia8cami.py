@@ -204,6 +204,18 @@ print(promedio_estudiante("notas.csv", "67890"))"""
 
 
 #EJERCICIO 8
+def copiar_pila(p:Pila) -> Pila:
+    pila_aux:Pila = Pila()
+    res:Pila = Pila()
+
+    while not p.empty():
+        pila_aux.put(p.get())
+    
+    while not pila_aux.empty():
+        res.put(pila_aux.get())
+    return res
+
+
 def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
     pila = Pila()
     for _ in range (cantidad):
@@ -285,7 +297,6 @@ def esta_bien_balanceada(s:str) -> bool:
 def evaluar_expresion(s:str) -> float:
     operadores:List = ['+', '-', '*', '/']
     pila:Pila[int] = Pila()
-    total:int = 0
     for caracter in s:
         if (not pertenece(caracter, operadores)) and (caracter != ' '):
             pila.put(caracter)
@@ -307,12 +318,102 @@ def evaluar_expresion(s:str) -> float:
 #print(evaluar_expresion("3 4 + 5 * 2 -"))
 
 #EJERCICIO 13
-def armar_cola(lista:List[int]) -> Cola:
+def copiar_cola(c:Cola) -> Cola:
+    cola_aux:Cola = Cola()
+    res:Cola = Cola()
+
+    while not c.empty():
+        cola_aux.put(c.get())
+    
+    while not cola_aux.empty():
+        res.put(cola_aux.get())
+    return res
+
+def armar_cola(cantidad, desde, hasta) -> None:
     c = Cola()
-    i:int = 0
-    longitud:int = len(lista)
-    for i in range (longitud):
-        c.put(lista[i])
+    pila:Pila[int] = generar_nros_al_azar(cantidad, desde, hasta)
+    while not pila.empty():
+        c.put(pila.get())
     return c
 
-print(armar_cola([1,2,3,4,5]))
+cola = armar_cola(5, 1, 20)
+#print(cola.queue)
+
+
+def cantidad_elementos(c:Cola) -> int:
+    cantidad:int = 0
+    cola:Cola = copiar_cola(c)
+    while not cola.empty():
+        cola.get()
+        cantidad += 1
+    return cantidad
+
+c = Cola()
+c.put(1)
+c.put(2)
+c.put(3)
+c.put(7)
+
+#print(cantidad_elementos(c))
+
+def buscar_el_maximo_cola(c:Cola) -> int:
+    cola:Cola = copiar_cola(c)
+    maximo:int = cola.get()
+    while not cola.empty():
+        candidato:int = cola.get()
+        if candidato > maximo:
+            maximo = candidato
+    return maximo
+
+c = Cola()
+c.put(1)
+c.put(0)
+c.put(8)
+c.put(7)
+
+#print(buscar_el_maximo_cola(c))
+
+#EJERCICIO 16
+#Punto 1)
+def armar_secuencia_de_bingo() -> Cola:
+    pila:Pila[int] = generar_nros_al_azar(100,0,99)
+    cola = Cola()
+    while not pila.empty():
+        cola.put(pila.get())
+    return cola
+
+c = armar_secuencia_de_bingo()
+#print(c.queue)
+
+#Punto 2)
+def pertenece_num(numero:int, lista:List[int]) -> bool:
+    for i in lista:
+        if numero == i:
+            return True
+    return False
+
+#print(pertenece_num(5, [1,2,3,4,6,7]))
+
+def jugar_carton_de_bingo(carton:List[int], bolillero:Cola) -> int:
+    tarjeta:List[int] = carton.copy()
+    bolilla:Cola = copiar_cola(bolillero)
+    jugadas:int = 0
+    bingo:int = 0
+
+    while 12 > bingo:
+        elemento:int = bolilla.get()
+        if pertenece_num(elemento, tarjeta):
+            bingo += 1
+            jugadas += 1
+        else:
+            jugadas += 1
+    return jugadas
+
+c:List[int] = random.sample(range(0,99),12)
+b:Cola = armar_secuencia_de_bingo()
+
+#print(jugar_carton_de_bingo(c, b))
+
+#EJERCICIO 17
+#def n_pacientes_urgentes(c:Cola) -> int:
+
