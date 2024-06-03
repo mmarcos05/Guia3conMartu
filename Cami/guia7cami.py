@@ -14,7 +14,7 @@ def pertenece(lista:List[int], numero:int) -> bool:
             i += 1
     return False
 
-print(pertenece([1,2,3,4],5))
+#print(pertenece([1,2,3,4],5))
 
 #EJERCICIO 1.2
 
@@ -27,7 +27,7 @@ def divide_a_todos_(lista:List[int], e:int) -> bool:
             return False
     return True
 
-print(divide_a_todos_([2,4,6,7,10], 2))
+#print(divide_a_todos_([2,4,6,7,10], 2))
 
 #EJERCICIO 1.3
 
@@ -40,7 +40,7 @@ def suma_total(lista:List[int]) -> int:
         i+=1
     return total
 
-print(suma_total([1,2,3,4]))
+#print(suma_total([1,2,3,4]))
 
 #EJERCICIO 1.4
 
@@ -62,7 +62,7 @@ def ordenados(lista:List[int]) -> bool:
             return False
     return True
 
-print(ordenados([1,2,5,4]))
+#print(ordenados([1,2,5,4]))
 
 #EJERCICIO 1.6
 
@@ -81,7 +81,7 @@ def es_palindromo(texto:str) -> bool:
     else:
         return False
 
-print(es_palindromo("neuquen"))
+#print(es_palindromo("neuquen"))
 
 
 #EJERCICIO 1.7
@@ -96,7 +96,7 @@ def tiene_minuscula(contraseña:str) -> bool:
             i += 1
     return False
 
-print(tiene_minuscula("HOLA"))
+#print(tiene_minuscula("HOLA"))
 
 def tiene_mayuscula(contraseña:str) -> bool:
     longitud:int = len(contraseña)
@@ -108,7 +108,7 @@ def tiene_mayuscula(contraseña:str) -> bool:
             i += 1
     return False
 
-print(tiene_mayuscula("la"))
+#print(tiene_mayuscula("la"))
 
 def tiene_num(contraseña:str) -> bool:
     longitud:int = len(contraseña)
@@ -120,7 +120,7 @@ def tiene_num(contraseña:str) -> bool:
             i += 1
     return False
 
-print(tiene_num("las"))
+#print(tiene_num("las"))
 
 def fortaleza(contraseña:str) -> str:
     longitud:int = len(contraseña)
@@ -133,7 +133,7 @@ def fortaleza(contraseña:str) -> str:
         else:
             return "AMARILLA"
         
-print(fortaleza("hola"))
+#print(fortaleza("hola"))
 
 #EJERCICIO 1.8
 
@@ -150,7 +150,7 @@ def cuenta_bancaria(lista:List[Tuple[chr, float]]) -> float:
             i+=1
     return saldo_actual
 
-print(cuenta_bancaria([('I', 2000), ('R', 20), ('R', 1000), ('I', 300)]))
+#print(cuenta_bancaria([('I', 2000), ('R', 20), ('R', 1000), ('I', 300)]))
 
 
 #EJERCICIO 2.1
@@ -173,7 +173,7 @@ def borra_pares(lista:List[int]) -> List[int]:
             i += 1
     return lista
 
-print(borra_pares([1,2,3,4,5,6,7]))
+#print(borra_pares([1,2,3,4,5,6,7]))
 
 #si la POSICIÓN es par
 def reemplaza_pares(lista:List[int]) -> None:
@@ -185,9 +185,9 @@ def reemplaza_pares(lista:List[int]) -> None:
         i += 1
 
 s = [2,4,5,6,3,3]
-print (f"antes: {s}")
+#print (f"antes: {s}")
 reemplaza_pares(s)
-print(f"remplaza_pares: {s}")
+#print(f"remplaza_pares: {s}")
 
 
 #EJERCICIO 2.2
@@ -204,7 +204,7 @@ def borra_pares_2(lista:List[int]) -> List[int]:
             i += 1
     return nueva_lista
 
-print(borra_pares_2([1,2,3,4,5,6,7]))
+#print(borra_pares_2([1,2,3,4,5,6,7]))
 
 #EJERCICIO 2.3
 
@@ -232,7 +232,7 @@ def borra_vocales(lista:List[chr]) -> List[chr]:
             i+=1
     return lista
 
-print(borra_vocales(['h','O','l','a','m','U','n','d','o']))
+#print(borra_vocales(['h','O','l','a','m','U','n','d','o']))
 
 #EJERCICIO 2.4
 def reemplaza_vocales(palabra:List[chr]) -> List[chr]:
@@ -248,7 +248,7 @@ def reemplaza_vocales(palabra:List[chr]) -> List[chr]:
             i+=1
     return palabra
 
-print(reemplaza_vocales(['h','o','l','a','m','u','n','d','o']))
+#print(reemplaza_vocales(['h','o','l','a','m','u','n','d','o']))
 
 #EJERCICIO 2.5 --> igual a la función reversa
 
@@ -266,7 +266,7 @@ def eliminar_repetidos(palabra:List[chr]) -> List[chr]:
             i+=1
     return palabra_nueva
 
-print(eliminar_repetidos(['h','h','h','a','m','u','n','d','a']))
+#print(eliminar_repetidos(['h','h','h','a','m','u','n','d','a']))
 
 #EJERCICIO 3
 
@@ -298,7 +298,7 @@ def aprobado(notas:List[int]) -> int:
         else:
             return res + 3
         
-print(aprobado([1,2,3]))
+#print(aprobado([1,2,3]))
 
 #EJERCICIO 4.1
 def nombres_estudiantes() -> List[str]:
@@ -309,15 +309,30 @@ def nombres_estudiantes() -> List[str]:
         nombre:str = str(input('Ingrese el nombre de alumno: '))
     return lista_alumnos
 
-print(nombres_estudiantes())
+#print(nombres_estudiantes())
 
 #EJERCICIO 4.2
-"""def sube() -> List[tuple]:
+def sube() -> None:
     monedero:int = 0
-    opciones:str = input(f"Por favor, seleccione una de las siguientes opciones: \nC = Cargar créditos \nD = Descontar créditos \n X = Finalizar")
-    while opciones != "X":
-        cargar_monto:int = int(input(f"Por favor, establezca el monto deseado para realizar la operación: "))
-        if opciones == "C":"""
+    historial:List[tuple] = []
+
+    while True:
+        opciones:str = input(f"Por favor, seleccione una de las siguientes opciones: \nC = Cargar créditos \nD = Descontar créditos \nX = Finalizar\n")
+        if opciones == "C":
+            cargar_monto:int = int(input(f"Por favor, establezca el monto deseado para realizar la operación: "))
+            monedero += cargar_monto
+            historial.append(("C", cargar_monto))
+        elif opciones == "D":
+            cargar_monto:int = int(input(f"Por favor, establezca el monto deseado para realizar la operación: "))
+            if 0 > (monedero - cargar_monto):
+                input(f"Saldo insuficiente. Por favor, establezca un monto más pequeño: ")
+            else:
+                monedero -= cargar_monto
+                historial.append(("D", cargar_monto))
+        elif opciones == "X":
+            input(f"Gracias por usar nuestros servicios. Este es su saldo: {monedero}. Aquí está su historial de operaciones: {historial}")
+
+print(sube())
 
 #EJERCICIO 5.2
 
@@ -335,7 +350,7 @@ def pertenece_a_cada_uno_version_2(lista:List[List[int]], e:int) -> List[bool]:
             i += 1
     return lista
 
-print(pertenece_a_cada_uno_version_2([[1,2], [3,4,5,1], [6,7,8]], 1))
+#print(pertenece_a_cada_uno_version_2([[1,2], [3,4,5,1], [6,7,8]], 1))
 
 def pertenece_a_cada_uno_profe(s:List[List[int]], e:int, res:List[bool]) -> None:
     res.clear()
@@ -349,4 +364,4 @@ def pertenece_a_cada_uno_profe(s:List[List[int]], e:int, res:List[bool]) -> None
 
 resultados: List[bool] = []
 pertenece_a_cada_uno_profe([[1,2], [3,4,5,1], [6,7,8]], 1, resultados)
-print(resultados)
+#print(resultados)
