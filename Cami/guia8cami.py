@@ -502,4 +502,41 @@ def atencion_a_clientes(c:Cola) -> Cola:
 
 c = clientes()
 cola_atencion = atencion_a_clientes(c)
-print(cola_atencion.queue)
+#print(cola_atencion.queue)
+
+#EJERCICIO 19
+def separar_palabras(linea:str) -> List[str]:
+    palabra:str = ''
+    lista:List[str] = []
+    for caracter in linea:
+        if caracter != ' ':
+            palabra += caracter
+        else:
+            lista.append(palabra)
+            palabra = ''
+    lista.append(palabra)
+    return lista
+
+#print(separar_palabras("hola todo bien soy cami"))
+
+def contar_letras(palabra:str) -> int:
+    total_letras:int = 0
+    for caracter in palabra:
+        total_letras += 1
+    return total_letras
+
+#print(contar_letras("hola"))
+
+"""def misma_longitud(lista:List[str]) -> int:
+    total:int = 0
+    for i in lista:
+        if contar_letras(lista[i]) == 
+ 
+def agrupar_por_longitud(nombre_archivo:str) -> dict:
+    diccionario:dict = {}
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    lineas:List = archivo.readlines()
+    lista:List = separar_palabras(linea)
+    for linea in lineas:
+        for i in lista:
+            diccionario[contar_letras(lista[i])] = """
