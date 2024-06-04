@@ -1,5 +1,8 @@
 from queue import LifoQueue as Pila
 import random
+import typing
+from typing import List
+from queue import Queue as Cola
 
 #EJERCICIO 1.1
 def contar_lineas(nombre_archivo:str) -> int:
@@ -10,7 +13,209 @@ def contar_lineas(nombre_archivo:str) -> int:
 
 #print(contar_lineas("archivo.txt"))
 
+#EJERCICIO 1.2
+def pertenece(a:str, b: List[str]) -> bool:
+    indice: int = 0
+    while indice < len(b):
+        if b[indice] == a:
+            return True
+        else: indice += 1
+    return False
+
+#EJERCICIO 2
+def es_comentario(linea:str) -> bool:
+    i:int = 0
+    while(i < len(linea) and linea[i] == ' '):
+        i += 1
+    return i < len(linea) and linea[i] == '#'
+
+"""def es_comentario(linea:str) -> bool:     está mal no sé por qué
+    longitud:int = len(linea)
+    i:int = 0
+    res:bool = False
+    while (longitud > i):
+        if (linea[i] == ' '):
+            i+=1        
+        else:
+            if (linea[i] == '#'):
+                res = True
+            else:
+                res = False
+    return res"""
+
+
+def clonar_sin_comentarios(nombre_archivo:str) -> None:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    nuevo_archivo:typing.IO = open("clonado.txt", 'w')
+    lineas:List[str] = archivo.readlines()
+
+    for linea in lineas:
+        if (not es_comentario(linea)):
+            nuevo_archivo.write(linea)
+    nuevo_archivo.close()
+    archivo.close()
+
+    nuevo_archivo = open("clonado.txt", 'r')
+    contenido = nuevo_archivo.read()
+    print(contenido)
+    nuevo_archivo.close()
+
+#clonar_sin_comentarios("ejemplo_clonado.py")
+        
+        
+#EJERCICIO 3
+def reversa(lista:List[str]) -> List[str]:    #otra forma de hacer la función de reversa
+    nueva_lista:List[str] = []
+    longitud:int = len(lista)
+    i:int = longitud - 1
+
+    for i in range (longitud-1, (-1), (-1)):
+        nueva_lista.append(lista[i])
+    return nueva_lista
+
+#print(reversa(["cami", "niki", "wendy", "kelly"]))
+
+"""def invertir_lineas(nombre_archivo:str) -> None:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    nuevo_archivo:typing.IO = open("reverso.txt", 'w')
+
+    lineas:List[str] = archivo.readlines()
+    lineas_reversa:List[str] = reversa(lineas)
+
+    nuevo_archivo.writelines(lineas_reversa)
+
+    archivo.close()
+    nuevo_archivo.close()
+
+    nuevo_archivo = open("reverso.txt", 'r')
+    contenido = nuevo_archivo.read()
+    print(contenido)
+    nuevo_archivo.close()
+
+invertir_lineas("ejemplo_clonado.py")"""
+
+def invertir_lineas(nombre_archivo:str) -> None:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    nuevo_archivo:typing.IO = open("reverso.txt", 'w')
+    lineas:List[str] = archivo.readlines()
+    cantidad_lineas:int = len(lineas)
+
+    while cantidad_lineas > 0:
+        if pertenece('\n', lineas[cantidad_lineas - 1]):
+            nuevo_archivo.write(lineas[cantidad_lineas - 1])
+        else:
+            nuevo_archivo.write(lineas[cantidad_lineas - 1] + '\n')
+        cantidad_lineas -=1
+    archivo.close()
+    nuevo_archivo.close()
+
+    nuevo_archivo = open("reverso.txt", 'r')
+    contenido = nuevo_archivo.readlines()
+    print(contenido)
+    nuevo_archivo.close()
+
+#invertir_lineas("ejemplo_clonado.py")
+
+#EJERCICIO 4
+def agregar_frase_al_final(nombre_archivo:str, frase:str) -> None:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    lineas:List[str] = archivo.readlines()
+    cantidad_lineas:int = len(lineas)
+    archivo.close()
+
+    archivo:typing.IO = open(nombre_archivo, 'a')
+    
+    if pertenece ('\n', lineas[cantidad_lineas - 1]):
+        archivo.write(frase)
+    else:
+        archivo.write('\n' + frase)
+    archivo.close()
+
+    archivo = open(nombre_archivo, 'r')
+    contenido = archivo.read()
+    print(contenido)
+    archivo.close()
+
+#agregar_frase_al_final("archivo.txt", "esta es una prueba")
+
+#EJERCICIO 5
+def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
+    archivo = open(nombre_archivo, 'r')
+    contenido = archivo.read()
+    archivo.close()
+    
+    archivo = open(nombre_archivo, 'w')
+    archivo.write(frase + '\n' + contenido)
+    archivo.close()
+
+    archivo = open(nombre_archivo, 'r')
+    contenidofinal = archivo.read()
+    print(contenidofinal)
+    archivo.close()
+
+#agregar_frase_al_principio("feliz_cumple.txt", "esta es una prueba")
+
+#EJERCICIO 6
+"""def listar_palabras_de_archivo(nombre_archivo:str) -> List:
+    lista:List = []
+    i:int = 0
+    archivo_binario = open(nombre_archivo, 'r')
+    contenido_binario = archivo_binario.read()
+    contenido = chr(contenido_binario)
+    archivo_binario.close()
+
+    archivo = open("nuevo.txt", 'w')
+    archivo.write(contenido)
+    lineas:List = archivo.readlines()
+    cantidad_lineas:int = len(lineas)
+
+    while cantidad_lineas - 1 > i:
+        if len(lineas[i]) > 5:
+            if (pertenece("_", lineas[i]) and pertenece(" ", lineas[i])):
+                lista.append(lineas[i])
+                i+=1
+        i+=1
+    return lista"""
+
+#EJERCICIO 7
+"""def promedio_estudiante(nombre_archivo, lu:str) -> float:
+    archivo = open(nombre_archivo, 'r')
+    lineas:List = archivo.readlines()
+    i:int = 0
+    total:int = 0
+    cantidad_materias:int = 0
+    cantidad_lineas:int = len(lineas)
+
+    while (cantidad_lineas - 1) > i:
+        if (lineas[i])[0] == lu:
+            total += (lineas[i])[3]
+            cantidad_materias += 1
+            i += 1
+        else:
+            i += 1
+    archivo.close()
+    if cantidad_materias == 0:
+        return 0.0
+    else:
+        return (total/cantidad_materias)
+
+print(promedio_estudiante("notas.csv", "67890"))"""
+
+
+
 #EJERCICIO 8
+def copiar_pila(p:Pila) -> Pila:
+    pila_aux:Pila = Pila()
+    res:Pila = Pila()
+
+    while not p.empty():
+        pila_aux.put(p.get())
+    
+    while not pila_aux.empty():
+        res.put(pila_aux.get())
+    return res
+
+
 def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
     pila = Pila()
     for _ in range (cantidad):
@@ -19,7 +224,7 @@ def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
 
 p = generar_nros_al_azar(5, 20, 40)
 
-print(p.get())
+#print(p.get())
 
 #EJERCICIO 9
 def cantidad_elementos(p:Pila) -> int:
@@ -63,5 +268,152 @@ p.put(4)
 #print(buscar_el_maximo(p))
 
 #EJERCICIO 11
-#def esta_bien_balanceada(s:str) -> bool:
+
+def esta_bien_balanceada(s:str) -> bool:
+    pila:Pila[chr] = Pila()
+    for caracter in s:
+        if caracter == '(':
+            pila.put(caracter)
+        elif caracter == ')':
+            if pila.empty():
+                return False
+            else:
+                pila.get()
+    return pila.empty()
+
+#print(esta_bien_balanceada("1 + (2 x 3 - (20 / 5))"))
+#print(esta_bien_balanceada("10 ∗ ( 1 + ( 2 ∗ ( −1)))"))
+#print(esta_bien_balanceada("1 + ) 2 x 3 ( ( )"))
+
+#EJERCICIO 12
+"""def pertenece2(a:chr, b: str) -> bool:
+    indice: int = 0
+    while indice < len(b):
+        if b[indice] == a:
+            return True
+        else: indice += 1
+    return False"""
+
+def evaluar_expresion(s:str) -> float:
+    operadores:List = ['+', '-', '*', '/']
+    pila:Pila[int] = Pila()
+    for caracter in s:
+        if (not pertenece(caracter, operadores)) and (caracter != ' '):
+            pila.put(caracter)
+        elif pertenece(caracter, operadores):
+            if caracter == '+':
+                total = (int(pila.get()) + int(pila.get()))
+                pila.put(total)
+            elif  caracter == '-':
+                total = - (int(pila.get()) - int(pila.get()))
+                pila.put(total)
+            elif  caracter == '*':
+                total = (int(pila.get()) * int(pila.get()))
+                pila.put(total)
+            else:
+                total = (int(pila.get()) / int(pila.get()))
+                pila.put(total)
+    return int(pila.get())
+
+#print(evaluar_expresion("3 4 + 5 * 2 -"))
+
+#EJERCICIO 13
+def copiar_cola(c:Cola) -> Cola:
+    cola_aux:Cola = Cola()
+    res:Cola = Cola()
+
+    while not c.empty():
+        cola_aux.put(c.get())
     
+    while not cola_aux.empty():
+        res.put(cola_aux.get())
+    return res
+
+def armar_cola(cantidad, desde, hasta) -> None:
+    c = Cola()
+    pila:Pila[int] = generar_nros_al_azar(cantidad, desde, hasta)
+    while not pila.empty():
+        c.put(pila.get())
+    return c
+
+cola = armar_cola(5, 1, 20)
+#print(cola.queue)
+
+
+def cantidad_elementos(c:Cola) -> int:
+    cantidad:int = 0
+    cola:Cola = copiar_cola(c)
+    while not cola.empty():
+        cola.get()
+        cantidad += 1
+    return cantidad
+
+c = Cola()
+c.put(1)
+c.put(2)
+c.put(3)
+c.put(7)
+
+#print(cantidad_elementos(c))
+
+def buscar_el_maximo_cola(c:Cola) -> int:
+    cola:Cola = copiar_cola(c)
+    maximo:int = cola.get()
+    while not cola.empty():
+        candidato:int = cola.get()
+        if candidato > maximo:
+            maximo = candidato
+    return maximo
+
+c = Cola()
+c.put(1)
+c.put(0)
+c.put(8)
+c.put(7)
+
+#print(buscar_el_maximo_cola(c))
+
+#EJERCICIO 16
+#Punto 1)
+def armar_secuencia_de_bingo() -> Cola:
+    pila:Pila[int] = generar_nros_al_azar(100,0,99)
+    cola = Cola()
+    while not pila.empty():
+        cola.put(pila.get())
+    return cola
+
+c = armar_secuencia_de_bingo()
+#print(c.queue)
+
+#Punto 2)
+def pertenece_num(numero:int, lista:List[int]) -> bool:
+    for i in lista:
+        if numero == i:
+            return True
+    return False
+
+#print(pertenece_num(5, [1,2,3,4,6,7]))
+
+def jugar_carton_de_bingo(carton:List[int], bolillero:Cola) -> int:
+    tarjeta:List[int] = carton.copy()
+    bolilla:Cola = copiar_cola(bolillero)
+    jugadas:int = 0
+    bingo:int = 0
+
+    while 12 > bingo:
+        elemento:int = bolilla.get()
+        if pertenece_num(elemento, tarjeta):
+            bingo += 1
+            jugadas += 1
+        else:
+            jugadas += 1
+    return jugadas
+
+c:List[int] = random.sample(range(0,99),12)
+b:Cola = armar_secuencia_de_bingo()
+
+#print(jugar_carton_de_bingo(c, b))
+
+#EJERCICIO 17
+#def n_pacientes_urgentes(c:Cola) -> int:
+
