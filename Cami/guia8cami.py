@@ -1,7 +1,7 @@
 from queue import LifoQueue as Pila
 import random
 import typing
-from typing import List
+from typing import List, Tuple, Dict
 from queue import Queue as Cola
 
 #EJERCICIO 1.1
@@ -156,10 +156,10 @@ def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
 #agregar_frase_al_principio("feliz_cumple.txt", "esta es una prueba")
 
 #EJERCICIO 6
-"""def listar_palabras_de_archivo(nombre_archivo:str) -> List:
+def listar_palabras_de_archivo(nombre_archivo:str) -> List:
     lista:List = []
     i:int = 0
-    archivo_binario = open(nombre_archivo, 'r')
+    archivo_binario = open(nombre_archivo, 'rb')
     contenido_binario = archivo_binario.read()
     contenido = chr(contenido_binario)
     archivo_binario.close()
@@ -175,7 +175,7 @@ def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
                 lista.append(lineas[i])
                 i+=1
         i+=1
-    return lista"""
+    return lista
 
 #EJERCICIO 7
 """def promedio_estudiante(nombre_archivo, lu:str) -> float:
@@ -212,17 +212,26 @@ def copiar_pila(p:Pila) -> Pila:
         pila_aux.put(p.get())
     
     while not pila_aux.empty():
-        res.put(pila_aux.get())
+        val = pila_aux.get()
+        p.put(val)
+        res.put(val)
     return res
 
+def generar_nros_al_azar(cantidad:int, desde:int, hasta:int) -> Pila[int]:
+    p = Pila()
+    for i in range (cantidad):
+        p.put(random.randint(desde,hasta))
+    return p
 
-def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
+"""def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
     pila = Pila()
-    for _ in range (cantidad):
-        pila.put(random.randint(desde, hasta))
+    while longitud_pila(pila) < 100:
+        i = random.randint(desde, hasta)
+        if i not in pila:
+            pila.put(i)
     return pila
 
-p = generar_nros_al_azar(5, 20, 40)
+p = generar_nros_al_azar(5, 20, 40)"""
 
 #print(p.get())
 
@@ -326,7 +335,9 @@ def copiar_cola(c:Cola) -> Cola:
         cola_aux.put(c.get())
     
     while not cola_aux.empty():
-        res.put(cola_aux.get())
+        val = cola_aux.get()
+        c.put(val)
+        res.put(val)
     return res
 
 def armar_cola(cantidad, desde, hasta) -> None:
@@ -374,6 +385,7 @@ c.put(7)
 #print(buscar_el_maximo_cola(c))
 
 #EJERCICIO 16
+#nros:List = list(range(100)) #hace lista de nùmeros del 0 al 99
 #Punto 1)
 def armar_secuencia_de_bingo() -> Cola:
     pila:Pila[int] = generar_nros_al_azar(100,0,99)
@@ -412,8 +424,161 @@ def jugar_carton_de_bingo(carton:List[int], bolillero:Cola) -> int:
 c:List[int] = random.sample(range(0,99),12)
 b:Cola = armar_secuencia_de_bingo()
 
-#print(jugar_carton_de_bingo(c, b))
+#print(b.queue)
+#print(f"el carton es {c} y {jugar_carton_de_bingo(c, b)}")
 
 #EJERCICIO 17
-#def n_pacientes_urgentes(c:Cola) -> int:
+def n_pacientes_urgentes(c:Cola) -> int:
+    cola:Cola = copiar_cola(c)
+    rango:List[int] = [1, 2, 3]
+    urgentes:int = 0
+    while not cola.empty():
+        elemento = cola.get()
+        if pertenece_num(elemento[0], rango):
+            urgentes += 1
+    return urgentes
 
+c = Cola()
+c.put((1, "camila", "cardio"))
+c.put((5, "marcela", "cirugia"))
+c.put((1, "nicole", "plastico"))
+c.put((2, "gabriel", "clinica"))
+c.put((3, "wendy", "trauma"))
+
+#print(n_pacientes_urgentes(c))
+
+#EJERCICIO 18
+def clientes() -> Cola:
+    c:Cola = Cola()
+    nuevo_cliente:str = input(f"¿Quiere registrarse?: ")
+    datos:Tuple[str, int, bool, bool] = ("hola", 0, True, False)
+    datos_lista = list(datos)
+
+    while nuevo_cliente == "si":
+        nombre:str = input(f"Por favor, ingrese su nombre y apellido: ")
+        datos_lista[0] = nombre
+        dni:int = input(f"Por favor, ingrese su DNI sin espacios: ")
+        datos_lista[1] = dni
+        cuenta:str = input("¿Tiene cuenta preferencial, sí o no?:  ")
+        if cuenta == "si":
+            datos_lista[2] = True
+        else:
+            datos_lista[2] = False
+        prioridad:str = input(f"Si cumple alguna de las siguientes condiciones responda 'si', en caso contrario responda 'no':\nAdulto +65\nEmbarazada\nMovilidad Reducida\n")
+        if prioridad == "si":
+            datos_lista[3] = True
+        else:
+            datos_lista[3] = False
+        datos_modificado = tuple(datos_lista)
+        c.put(datos_modificado)
+        nuevo_cliente:str = input(f"¿Quiere registrarse?: ")
+    return c
+
+#cola = clientes()
+#print(cola.queue)
+
+
+def atencion_a_clientes(c:Cola) -> Cola:
+    cola:Cola = copiar_cola(c)
+    cola_prioridad_y_cuenta:Cola = Cola()
+    cola_prioridad:Cola = Cola()
+    cola_cuenta:Cola = Cola()
+    cola_resto:Cola = Cola()
+    cola_final:Cola = Cola()
+
+    # Clasificar clientes en las colas correspondientes
+    while not cola.empty():
+        elemento = cola.get()
+        if (elemento[2] == True) and (elemento[3] == True):  # Prioridad y cuenta
+            cola_prioridad_y_cuenta.put(elemento)
+        elif (elemento[2] == False) and (elemento[3] == True):  # Prioridad
+            cola_prioridad.put(elemento)
+        elif (elemento[2] == True) and (elemento[3] == False):  # Cuenta
+            cola_cuenta.put(elemento)
+        else:  # Resto
+            cola_resto.put(elemento)
+
+    # Unir todas las colas en el orden especificado
+    while not cola_prioridad_y_cuenta.empty():
+        elemento = cola_prioridad_y_cuenta.get()
+        cola_final.put(elemento)
+    while not cola_prioridad.empty():
+        elemento = cola_prioridad.get()
+        cola_final.put(elemento)
+    while not cola_cuenta.empty():
+        elemento = cola_cuenta.get()
+        cola_final.put(elemento)
+    while not cola_resto.empty():
+        elemento = cola_resto.get()
+        cola_final.put(elemento)
+    return cola_final
+
+c = clientes()
+cola_atencion = atencion_a_clientes(c)
+#print(cola_atencion.queue)
+
+
+#EJERCICIO 19
+def separar_palabras(linea:str) -> List[str]:
+    palabra:str = ''
+    lista:List[str] = []
+    for caracter in linea:
+        if caracter != ' ':
+            palabra += caracter
+        else:
+            lista.append(palabra)
+            palabra = ''
+    lista.append(palabra)
+    return lista
+
+#print(separar_palabras("hola todo bien soy cami"))
+
+def contar_letras(palabra:str) -> int:
+    total_letras:int = 0
+    for caracter in palabra:
+        total_letras += 1
+    return total_letras
+
+#print(contar_letras("hola"))
+
+"""def misma_longitud(lista:List[str]) -> int:
+    total:int = 0
+    for i in lista:
+        if contar_letras(lista[i]) == 
+ 
+def agrupar_por_longitud(nombre_archivo:str) -> dict:
+    diccionario:dict = {}
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    lineas:List = archivo.readlines()
+    lista:List = separar_palabras(linea)
+    for linea in lineas:
+        for i in lista:
+            diccionario[contar_letras(lista[i])] = """
+
+#EJ 19 PROFE
+def pertenece_dic (d:dict, k) -> bool:
+    lista = list(d.keys())
+    for e in lista:
+        if e == k:
+            return True
+    return False
+
+#def palabras_de_archivo(nombre_Archivo:str) -> list[str]:
+
+
+def agrupar(nombre_archivo:str) -> dict:
+    palabras:List[str] = listar_palabras_de_archivo(nombre_archivo)
+    res:dict = {}
+    for p in palabras:
+        t = len(p)
+        if pertenece_dic(res, t):
+            res[t] = res[t] + 1
+        else:
+            res[t] = 1
+    return res
+
+#EJERCICIO 21
+
+    for linea in lineas:
+        for i in lista:
+            diccionario[contar_letras(lista[i])] = """
