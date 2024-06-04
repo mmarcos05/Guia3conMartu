@@ -1,7 +1,7 @@
 from queue import LifoQueue as Pila
 import random
 import typing
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 from queue import Queue as Cola
 
 #EJERCICIO 1.1
@@ -156,10 +156,10 @@ def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
 #agregar_frase_al_principio("feliz_cumple.txt", "esta es una prueba")
 
 #EJERCICIO 6
-"""def listar_palabras_de_archivo(nombre_archivo:str) -> List:
+def listar_palabras_de_archivo(nombre_archivo:str) -> List:
     lista:List = []
     i:int = 0
-    archivo_binario = open(nombre_archivo, 'r')
+    archivo_binario = open(nombre_archivo, 'rb')
     contenido_binario = archivo_binario.read()
     contenido = chr(contenido_binario)
     archivo_binario.close()
@@ -175,7 +175,7 @@ def agregar_frase_al_principio(nombre_archivo:str, frase:str) -> None:
                 lista.append(lineas[i])
                 i+=1
         i+=1
-    return lista"""
+    return lista
 
 #EJERCICIO 7
 """def promedio_estudiante(nombre_archivo, lu:str) -> float:
@@ -217,14 +217,21 @@ def copiar_pila(p:Pila) -> Pila:
         res.put(val)
     return res
 
+def generar_nros_al_azar(cantidad:int, desde:int, hasta:int) -> Pila[int]:
+    p = Pila()
+    for i in range (cantidad):
+        p.put(random.randint(desde,hasta))
+    return p
 
-def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
+"""def generar_nros_al_azar(cantidad: int, desde:int, hasta:int) -> Pila[int]:
     pila = Pila()
-    for _ in range (cantidad):
-        pila.put(random.randint(desde, hasta))
+    while longitud_pila(pila) < 100:
+        i = random.randint(desde, hasta)
+        if i not in pila:
+            pila.put(i)
     return pila
 
-p = generar_nros_al_azar(5, 20, 40)
+p = generar_nros_al_azar(5, 20, 40)"""
 
 #print(p.get())
 
@@ -378,6 +385,7 @@ c.put(7)
 #print(buscar_el_maximo_cola(c))
 
 #EJERCICIO 16
+#nros:List = list(range(100)) #hace lista de nùmeros del 0 al 99
 #Punto 1)
 def armar_secuencia_de_bingo() -> Cola:
     pila:Pila[int] = generar_nros_al_azar(100,0,99)
@@ -416,7 +424,8 @@ def jugar_carton_de_bingo(carton:List[int], bolillero:Cola) -> int:
 c:List[int] = random.sample(range(0,99),12)
 b:Cola = armar_secuencia_de_bingo()
 
-#print(jugar_carton_de_bingo(c, b))
+#print(b.queue)
+#print(f"el carton es {c} y {jugar_carton_de_bingo(c, b)}")
 
 #EJERCICIO 17
 def n_pacientes_urgentes(c:Cola) -> int:
@@ -450,7 +459,7 @@ def clientes() -> Cola:
         datos_lista[0] = nombre
         dni:int = input(f"Por favor, ingrese su DNI sin espacios: ")
         datos_lista[1] = dni
-        cuenta:str = input(f"¿Tiene cuenta preferencial, sí o no?: ")
+        cuenta:str = input("¿Tiene cuenta preferencial, sí o no?:  ")
         if cuenta == "si":
             datos_lista[2] = True
         else:
@@ -508,6 +517,7 @@ c = clientes()
 cola_atencion = atencion_a_clientes(c)
 #print(cola_atencion.queue)
 
+
 #EJERCICIO 19
 def separar_palabras(linea:str) -> List[str]:
     palabra:str = ''
@@ -541,6 +551,34 @@ def agrupar_por_longitud(nombre_archivo:str) -> dict:
     archivo:typing.IO = open(nombre_archivo, 'r')
     lineas:List = archivo.readlines()
     lista:List = separar_palabras(linea)
+    for linea in lineas:
+        for i in lista:
+            diccionario[contar_letras(lista[i])] = """
+
+#EJ 19 PROFE
+def pertenece_dic (d:dict, k) -> bool:
+    lista = list(d.keys())
+    for e in lista:
+        if e == k:
+            return True
+    return False
+
+#def palabras_de_archivo(nombre_Archivo:str) -> list[str]:
+
+
+def agrupar(nombre_archivo:str) -> dict:
+    palabras:List[str] = listar_palabras_de_archivo(nombre_archivo)
+    res:dict = {}
+    for p in palabras:
+        t = len(p)
+        if pertenece_dic(res, t):
+            res[t] = res[t] + 1
+        else:
+            res[t] = 1
+    return res
+
+#EJERCICIO 21
+
     for linea in lineas:
         for i in lista:
             diccionario[contar_letras(lista[i])] = """
