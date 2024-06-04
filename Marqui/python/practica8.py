@@ -416,21 +416,72 @@ def la_palabra_mas_frecuente(nombre_archivo:str) -> str:
     contenido = archivo.read()
     palabras = mi_split(contenido)
     palabras_dict = {}
-    pila = Pila()
     for palabra in palabras:
         if palabra in palabras_dict:
             palabras_dict[palabra] += 1
         else:
             palabras_dict[palabra] = 1
-    for pares in palabras_dict:
-        pila.put(pares)
-    maximo = pila.get()
-    print(maximo)
-    while not pila.empty():
-        comparador = pila.get
-        if comparador[1] > maximo[1]:
-            maximo = comparador
-    return maximo[0]
-        
+    maximo = 0
+    palabra = ""
+    for palabra_mayor,cantidad in palabras_dict.items():
+        if cantidad > maximo:
+            palabra = palabra_mayor
+    return palabra
 
-print(la_palabra_mas_frecuente("marcos.txt"))
+#print(la_palabra_mas_frecuente("marcos.txt"))
+
+#Ejercicio 22
+
+historiales: dict[str,Pila[str]] = {}
+
+def visitar_sitio(historiales:dict[str,Pila[str]],usuario:str,sitio:str) -> None:
+    user = usuario
+    web = sitio
+    if not user in historiales:
+        historiales[user] = Pila()
+    historiales[user].put(web)
+    
+def invertir_pila(pila:Pila) -> Pila:
+    pAux = Pila()
+    while not pila.empty():
+        pAux.put(pila.get())
+    return pAux
+
+m = Pila()
+m.put(1)
+m.put(2)
+m.put(3)
+m.put(4)
+
+u = (invertir_pila(m))
+print(u.queue)
+
+def navegar_atras(historiales:dict[str,Pila[str]], usuario:str) -> None:
+    user = usuario
+    ultimo_sitio = historiales[user].get()
+    #print(f"Sitio actual de {usuario}: {ultimo_sitio}")
+    nueva_pila = invertir_pila(historiales[user])
+    #print(f"Pila invertida después de extraer el sitio actual de {usuario}: {list(nueva_pila.queue)}")
+    nueva_pila.put(ultimo_sitio)
+    #print(f"Pila invertida después de agregar el sitio actual al final de {usuario}: {list(nueva_pila.queue)}")
+    historiales[user] = invertir_pila(nueva_pila)
+    #print(f"Pila final del historial del usuario {usuario}: {list(historiales[usuario].queue)}")
+    
+    
+
+
+visitar_sitio(historiales, "user1", "instagram.com")
+visitar_sitio(historiales, "user2", "facebook.com")
+visitar_sitio(historiales, "user1", "whatsapp.com")
+pila1 = historiales["user1"]
+pila2 = historiales["user2"]
+ 
+print(f'Historial de user1: {pila1.queue}')
+print(f'Historial de user2: {pila2.queue}')
+ 
+navegar_atras(historiales, "user1")
+navegar_atras(historiales, "user2")
+pila1 = historiales["user1"]
+pila2 = historiales["user2"]
+print(f'Historial de user1: {pila1.queue}')
+print(f'Historial de user2: {pila2.queue}')
