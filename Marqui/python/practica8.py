@@ -1,4 +1,5 @@
 from queue import LifoQueue as Pila
+from queue import Queue as Cola
 import random
 import typing
 
@@ -110,7 +111,7 @@ def generar_nros_al_azar(cantidad:int, desde:int, hasta:int) -> Pila[int]:
         pila.put(random.randint(desde, hasta))
     return pila
        
-p = generar_nros_al_azar(5,1,10)
+#p = generar_nros_al_azar(5,1,10)
 
 #Ejercicio 9
 
@@ -122,8 +123,314 @@ def cantidad_elementos(p:Pila) -> int:
         cantidad += 1
     return cantidad
 
-h = Pila()
+#h = Pila()
 
-h.put(1)
-h.put(2)
-print(cantidad_elementos(h))
+#h.put(1)
+#h.put(2)
+#print(cantidad_elementos(h))
+
+#Ejercicio 10
+
+def buscar_el_maximo(p:Pila[int]) -> int:
+    pila = p
+    maximo = pila.get()
+    while not pila.empty():
+        numero = pila.get()
+        if numero > maximo:
+            maximo = numero
+    return maximo
+
+#m = Pila()
+
+#m.put(2)
+#m.put(7)
+#m.put(0)
+#m.put(10)
+#m.put(8)
+#print(buscar_el_maximo(m))
+
+#Ejercicio 11
+
+def esta_bien_balanceada(s:str) -> bool:
+    formula = s
+    pila = Pila()
+    
+    for char in formula:
+        if char == '(':
+            pila.put(char)
+        elif char == ')':
+            if pila.empty():
+                return False
+            else:
+                pila.get()
+    return pila.empty()
+
+#Ejercicio 12
+
+def evaluar_expresion(s:str) -> float:
+    numeros = "123456789"
+    pila = Pila()
+    
+    for char in s:
+        if char in numeros:
+            pila.put(float(char))
+        elif char == '+':
+            numero1 = pila.get()
+            numero2 = pila.get()
+            nuevo_num = numero2 + numero1
+            pila.put(nuevo_num)
+        elif char == '-':
+            numero1 = pila.get()
+            numero2 = pila.get()
+            nuevo_num = numero2 - numero1
+            pila.put(nuevo_num)
+        elif char == '*':
+            numero1 = pila.get()
+            numero2 = pila.get()
+            nuevo_num = numero2 * numero1
+            pila.put(nuevo_num)
+        elif char == '/':
+            numero1 = pila.get()
+            numero2 = pila.get()
+            nuevo_num = numero2 / numero1
+            pila.put(nuevo_num)
+    return pila.get()
+
+expresion = "3 4 + 5 * 2 -"
+resultado = evaluar_expresion(expresion)
+#print(resultado) # Deber´ıa devolver 33
+    
+
+#Ejercicio 13
+
+def generar_nros_al_azar(cantidad:int, desde:int, hasta:int) -> Cola[int]:
+    c = Cola()
+    for _ in range(cantidad):
+        n = random.randint(desde, hasta)
+        c.put(n)
+    return c
+
+#print(generar_nros_al_azar(3,1,5).queue)
+
+#Ejercicio 14
+def copiar_cola(c:Cola) -> Cola:
+    cola1 = Cola()
+    cola2 = Cola()
+
+    while not c.empty():
+        cola1.put(c.get())
+    while not cola1.empty():
+        cola2.put(cola1.get())
+    return cola2
+
+def cantidad_elementos_cola(c:Cola) -> int:
+    cola = copiar_cola(c)
+    elementos = 0
+    while not cola.empty():
+        cola.get()
+        elementos += 1
+    return elementos
+
+c = Cola()
+
+c.put(1)
+c.put(2)
+#print(cantidad_elementos_cola(c))
+
+#Ejercicio 15
+
+def buscar_el_maximo_cola(c:Cola) -> int:
+    cola = copiar_cola(c)
+    maximo = cola.get()
+    while not cola.empty():
+        numero = cola.get()
+        if numero > maximo:
+            maximo = numero
+    return maximo
+j = Cola()
+j.put(5)
+j.put(6)
+j.put(3)
+j.put(8)
+j.put(1)
+#print(buscar_el_maximo_cola(j))
+
+#Ejercicio 16
+def pertenece(lista,numero):
+    i = 0
+    while i < len(lista):
+        if lista[i] == numero:
+            return True
+        else:
+            i += 1
+
+def copiar_cola(c:Cola) -> Cola:
+    cola1 = Cola()
+    cola2 = Cola()
+
+    while not c.empty():
+        cola1.put(c.get())
+    while not cola1.empty():
+        cola2.put(cola1.get())
+    return cola2
+
+def armar_secuencia_de_bingo() -> Cola[int]:
+    c = Cola()
+    lista_numeros = []
+    while len(lista_numeros) < 100:
+        i = random.randint(0,99)
+        if not pertenece(lista_numeros, i):
+            lista_numeros.append(i)
+            c.put(i)
+    return c
+
+def jugar_carton_de_bingo(carton:list[int],bolillero: Cola[int]):
+    boli = copiar_cola(bolillero)
+    i = 0
+    aciertos = 0
+    while aciertos < len(carton):
+        if pertenece(carton,boli.get()):
+            aciertos += 1
+            i += 1 
+        else:
+            i += 1
+    return i 
+
+def armar_secuencia_de_carton() -> list:
+    c = []
+    lista_numeros = []
+    while len(c) < 12:
+        i = random.randint(0,99)
+        if not pertenece(lista_numeros, i):
+            lista_numeros.append(i)
+            c.append(i)
+    return c
+
+carton = armar_secuencia_de_carton()
+bolillero = armar_secuencia_de_bingo()
+#print(f"el carton es {carton}, el bolillero es {bolillero.queue} y el numero de bolas para sacar es {jugar_carton_de_bingo(carton,bolillero)}")
+
+#Ejercicio 17
+
+def n_pacientes_urgentes(c : Cola[(int, str, str)]) -> int:
+    cola = copiar_cola(c)
+    urgencias = 0
+    while not cola.empty():
+        paciente = cola.get()
+        if paciente[0] <= 3:
+            urgencias += 1
+    return urgencias
+
+p = Cola()
+p.put((2,"a","a"))
+p.put((1,"a","a"))
+p.put((4,"a","a"))
+p.put((7,"a","a"))
+p.put((3,"a","a"))
+
+#print(n_pacientes_urgentes(p))
+
+#Ejercicio 18
+
+def atencion_a_clientes(c : Cola[(str, int, bool, bool)]) -> Cola[(str, int, bool, bool)]:
+    fila = copiar_cola(c)
+    fila_repuesto = Cola()
+    fila_final = Cola()
+    while not fila.empty():
+        paciente = fila.get()
+        if paciente[3]:
+            fila_final.put(paciente)
+        else:
+            fila_repuesto.put(paciente)
+    while not fila_repuesto.empty():
+        paciente = fila_repuesto.get()
+        if paciente[2]:
+            fila_final.put(paciente)
+        else:
+            fila.put(paciente)
+    while not fila.empty():
+        fila_final.put(fila.get())
+    return fila_final
+
+cola_clientes = Cola()
+cola_clientes.put(("Juan", 12345678, False, True))  # Prioridad
+cola_clientes.put(("Ana", 23456789, True, False))   # Preferencial
+cola_clientes.put(("Luis", 34567890, False, False))
+cola_clientes.put(("Maria", 45678901, True, False))  # Preferencial
+cola_clientes.put(("Carlos", 56789012, False, False))
+cola_clientes.put(("Sofia", 67890123, False, True))  # Prioridad
+
+res = (atencion_a_clientes(cola_clientes))
+#print(res.queue)
+
+#Ejercicio 19
+
+#funciones utiles para separar en palabras
+def palabras_de_archivo(nombre_de_archivo):
+    with open(nombre_de_archivo, 'r') as archivo:
+        contenido = archivo.read()
+
+        return mi_split(contenido)
+
+def mi_split(linea):
+    res = []
+    palabra = ""
+    for char in linea:
+        if char == " " or char == "\t" or char == "\n" or char == "\r":
+            if len(palabra) > 0:
+                res.append(palabra)
+                palabra = ""
+        else:
+            palabra += char
+    return res
+    
+def pertenece_dicts(d:dict, k) -> bool:
+    lista = list(d.keys())
+    for e in lista:
+        if e == k:
+            return True
+    return False
+
+def agrupar_por_letras(nombre_de_archivo:str) -> dict:
+    archivo = open(nombre_de_archivo, "r")
+    contenido : list[str] = archivo.read()
+    palabras = mi_split(contenido)
+    print(palabras)
+    res: dict = {}
+
+    for p in palabras:
+        t = len(p)
+        if pertenece_dicts(res, t):
+            res[t] += 1
+        else:
+            res[t] = 1
+    return res
+
+
+#print(agrupar_por_letras("pepe.txt")) 
+
+#Ejercicio 21
+
+def la_palabra_mas_frecuente(nombre_archivo:str) -> str:
+    archivo = open(nombre_archivo,'r')
+    contenido = archivo.read()
+    palabras = mi_split(contenido)
+    palabras_dict = {}
+    pila = Pila()
+    for palabra in palabras:
+        if palabra in palabras_dict:
+            palabras_dict[palabra] += 1
+        else:
+            palabras_dict[palabra] = 1
+    for pares in palabras_dict:
+        pila.put(pares)
+    maximo = pila.get()
+    print(maximo)
+    while not pila.empty():
+        comparador = pila.get
+        if comparador[1] > maximo[1]:
+            maximo = comparador
+    return maximo[0]
+        
+
+print(la_palabra_mas_frecuente("marcos.txt"))
