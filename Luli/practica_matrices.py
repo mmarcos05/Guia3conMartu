@@ -55,6 +55,7 @@ def maximo_columna(col: list[int]) -> int:
             maximo_actual = col[i]
     return maximo_actual
 
+# hago esta funcion para que me ponga los valores en una tupla directamente
 def min_max(col: list[int]) -> tuple[int,int]:
     min = minimo_columna(col)
     max = maximo_columna(col)
