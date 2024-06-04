@@ -181,6 +181,29 @@ def agregar_frase_al_principio(nombre_archivo: str, frase: str) -> None:
 
 # agregar_frase_al_principio("cancion.txt", "Felicidades")
 
+# Ejercicio 6
+def listar_palabras_de_archivo(nombre_archivo:str) -> list[str]:
+    archivo = open(nombre_archivo,'rb')
+    bytes: list[int] = archivo.read()
+    
+    palabras: list[str] = []
+    palabra_actual: str = ""
+
+    for byte in bytes:
+        char: str = chr(byte)
+        if char_valido(char):
+            palabra_actual += char
+        else: 
+            if len(palabra_actual) >= 5:
+                palabras.append(palabra_actual)
+            palabra_actual = ""
+    return palabras
+
+def char_valido(char:str) -> bool:
+    if (char >= 'a' and char <= 'z') or (char >= 'A' and char <= 'Z') or (char >= '1' and char <= '9') or (char == ' ') or (char == '_'):
+        return True
+
+
 # Ejercicio 7
 def promedio_estudiante(nombre_archivo:str, lu:str) -> float:
     archivo = open(nombre_archivo,"r")
@@ -460,7 +483,7 @@ def armar_secuencia_de_bingo() -> Cola[int]:
             numeros.append(n)
     return cola
 
-# mi_cola = armar_secuencia_de_bingo() #SIN REPETIDOS
+# mi_cola = armar_secuencia_de_bingo()
 # print(mi_cola.queue)
 
 def armar_secuencia_carton() -> list[int]:
@@ -473,17 +496,17 @@ def armar_secuencia_carton() -> list[int]:
             c.append(i)
     return c
 
-def jugar_carton_de_bingo(carton:list[int], bolillero:Cola) -> int:
-    res: int = 0
-    copia = copiar_cola(bolillero)
-    aciertos:int = 0
+def jugar_carton_de_bingo(carton:list[int], bolillero:Cola[int]) -> int:
+    jugadas: int = 0
+    copia: Cola[int] = copiar_cola(bolillero)
+    aciertos: int = 0
 
     while aciertos < len(carton):
-        v = copia.get()
-        res += 1
-        if v in carton:
+        bolilla: int = copia.get()
+        jugadas += 1
+        if bolilla in carton:
             aciertos += 1
-    return res
+    return jugadas
 
 # Armo el bolillero
 # b = armar_secuencia_de_bingo()
@@ -493,31 +516,12 @@ def jugar_carton_de_bingo(carton:list[int], bolillero:Cola) -> int:
 # carton = armar_secuencia_carton()
 # print(f"El carton es {carton}")
 
-# print(jugar_carton_de_bingo(carton,b))
+# print(f"Necesitaste {jugar_carton_de_bingo(carton,b)} jugadas para ganar")
 
 # Ejercicio 17
 def n_pacientes_urgentes(c:Cola[(int,str,str)]) -> int:
     copia: Cola = copiar_cola(c)
-    cAux = Cola()
-    contador = 0
-
-    while not copia.empty():
-        paciente: tuple = copia.get()
-        if isinstance(paciente,tuple) and len(paciente) == 3:
-            prioridad, nombre, especialidad = paciente 
-            if (1 <= prioridad <= 3):
-                contador += 1
-            cAux.put(paciente)
-
-    while not cAux.empty():
-        copia.put(cAux.get())
-
-    return contador
-
-
-def n_pacientes_urgentes2(c:Cola[(int,str,str)]) -> int:
-    copia: Cola = copiar_cola(c)
-    contador = 0
+    contador: int = 0
 
     while not copia.empty():
         prioridad, _, _ = copia.get()
@@ -525,7 +529,7 @@ def n_pacientes_urgentes2(c:Cola[(int,str,str)]) -> int:
             contador += 1
     return contador
 
-def n_pacientes_urgentes3(c:Cola[(int,str,str)]) -> int:
+def n_pacientes_urgentes2(c:Cola[(int,str,str)]) -> int:
     copia_cola: Cola = copiar_cola(c)
     contador = 0
 
@@ -716,3 +720,50 @@ def navegar_atras(historiales:dict[str, Pila[str]], usuario:str) -> None:
  
 # navegar_atras(historiales, "user1")
 # navegar_atras(historiales, "user2")
+
+# Ejercicio 23
+def agregar_producto(inventario: dict[dict[str,str]], nombre:str , precio: float, cantidad: int) -> None:
+    info_producto: dict[str,str] = dict()
+    info_producto["nombre"] = nombre
+    info_producto["precio"] = precio
+    info_producto["cantidad"] = cantidad
+
+    inventario[nombre] = info_producto
+
+# inventario = {}
+# agregar_producto(inventario, "manzana", 20.0, 2)
+# agregar_producto(inventario, "pera", 28.0, 6)
+# agregar_producto(inventario, "naranja", 10.0, 5)
+# print(inventario)
+
+def actualizar_stock(inventario, nombre, cantidad) -> None:
+    if nombre == inventario[nombre]["nombre"]:
+        inventario[nombre]["cantidad"] = cantidad
+
+# inventario = {'manzana': {'nombre': 'manzana', 'precio': 20.0, 'cantidad': 2}, 'pera': {'nombre': 'pera', 'precio': 28.0, 'cantidad': 6}, 'naranja': {'nombre': 'naranja', 'precio': 10.0, 'cantidad': 5}}
+# actualizar_stock(inventario, 'manzana', '155')
+# print(inventario)
+
+def actualizar_precios(inventario, nombre, precio) -> None:
+    if nombre == inventario[nombre]['nombre']:
+        inventario[nombre]['precio'] = precio
+
+# inventario = {'manzana': {'nombre': 'manzana', 'precio': 20.0, 'cantidad': 2}, 'pera': {'nombre': 'pera', 'precio': 28.0, 'cantidad': 6}, 'naranja': {'nombre': 'naranja', 'precio': 10.0, 'cantidad': 5}}
+# actualizar_precios(inventario, 'pera', '19.0')
+# print(inventario)
+
+def calcular_valor_inventario(inventario) -> float:
+    valor_actual: float = 0.0
+    for producto in inventario:
+        plata = inventario[producto]['precio'] * inventario[producto]['cantidad']
+        valor_actual += plata
+
+    return valor_actual
+
+# inventario = {}
+# agregar_producto(inventario, "Camisa", 20.0, 50)
+# agregar_producto(inventario, "Pantalon", 30.0, 30)
+# actualizar_stock(inventario, "Camisa", 10)
+# print(f"inventario: {inventario}")
+# valor_total = calcular_valor_inventario(inventario)
+# print("Valor total del inventario:", valor_total) # Deberıa imprimir 1100.00
