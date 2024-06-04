@@ -4,9 +4,9 @@ import random
 import typing
 import csv
 
-def readLines(archivo:str) -> list[str]:
-    archivo = open(archivo, "r")
-    lineas = archivo.readlines()
+# def readLines(archivo:str) -> list[str]:
+#     archivo = open(archivo, "r")
+#     lineas = archivo.readlines()
 #    print(lineas)
     
 # readLines("cancion.txt")
@@ -450,39 +450,50 @@ def buscar_el_max_cola(c:Cola[int]) -> int:
 # Ejercicio 16 
 # Bingo: un carton de bingo contiene 12 numeros al azar en el rango [0, 99]
 def armar_secuencia_de_bingo() -> Cola[int]:
-    return cola_de_enteros(100,0,99)
+    cola = Cola()
+    numeros = []
+    
+    while len(numeros) < 100:
+        n = random.randint(0,99)
+        if n not in numeros:
+            cola.put(n)
+            numeros.append(n)
+    return cola
 
-# cola = armar_secuencia_de_bingo()
-# print(cola.queue)
+# mi_cola = armar_secuencia_de_bingo() #SIN REPETIDOS
+# print(mi_cola.queue)
 
-def pertenece_num(numero:int, lista:list[int]) -> bool:
-    for i in lista:
-        if numero == i:
-            return True
-    return False
+def armar_secuencia_carton() -> list[int]:
+    c = []
+    lista_nums = []
+    while len(c) < 12:
+        i = random.randint(0,99)
+        if i not in lista_nums:
+            lista_nums.append(i)
+            c.append(i)
+    return c
 
 def jugar_carton_de_bingo(carton:list[int], bolillero:Cola) -> int:
-    bolilla = bolillero.get()
-    jugadas:int = 0
-    bingo:int = 0
+    res: int = 0
+    copia = copiar_cola(bolillero)
+    aciertos:int = 0
 
-    while 12 > bingo:
-        if pertenece_num(bolilla, carton):
-            bingo += 1
-            jugadas += 1
-        else:
-            jugadas += 1
-    return jugadas
+    while aciertos < len(carton):
+        v = copia.get()
+        res += 1
+        if v in carton:
+            aciertos += 1
+    return res
 
 # Armo el bolillero
-b = armar_secuencia_de_bingo()
+# b = armar_secuencia_de_bingo()
+# print(f"El bolillero es {b.queue}")
 
 # Armo el carton
-c = random.sample(range(0,100),12)
-# print(f"Carton de bingo: {carton}")
+# carton = armar_secuencia_carton()
+# print(f"El carton es {carton}")
 
-print(jugar_carton_de_bingo(c,b))
-
+# print(jugar_carton_de_bingo(carton,b))
 
 # Ejercicio 17
 def n_pacientes_urgentes(c:Cola[(int,str,str)]) -> int:
@@ -589,8 +600,8 @@ def separar_en_palabras_sin_enter(linea: str) -> list:
     palabras = []
     palabra = ""
     for caracter in linea:
-        if caracter == ' ' or caracter == '"' or caracter == '\n':
-            if palabra:  # Añade solo si palabra no está vacía
+        if caracter == ' ' or caracter == '"' or caracter == '\n' or caracter == '\r' or caracter == '\t':
+            if palabra:  # Añade solo si palabra no está vacía (es lo mismo que decir if len(palabra) > 0)
                 palabras.append(palabra)
                 palabra = ''
         else: 
@@ -600,7 +611,7 @@ def separar_en_palabras_sin_enter(linea: str) -> list:
     return palabras
 
 def agrupar_por_longitud(nombre_archivo:str) -> dict:
-    archivo = open(nombre_archivo, "r")
+    archivo: typing.IO = open(nombre_archivo, "r")
     linea:str 
     diccionario: dict = dict()
 
@@ -645,7 +656,8 @@ def cantidad_de_apariciones(nombre_archivo:str) -> dict:
     for linea in archivo:
         palabras: list[str] = separar_en_palabras_sin_enter(linea)
         for palabra in palabras:
-            if pertenece(palabra, list(diccionario_palabras.keys())):
+            if palabra in diccionario_palabras.keys():
+            # if pertenece(palabra, list(diccionario_palabras.keys())):
                 diccionario_palabras[palabra] += 1
             else:
                 diccionario_palabras[palabra] = 1  
@@ -704,4 +716,3 @@ def navegar_atras(historiales:dict[str, Pila[str]], usuario:str) -> None:
  
 # navegar_atras(historiales, "user1")
 # navegar_atras(historiales, "user2")
-
