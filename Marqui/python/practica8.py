@@ -2,6 +2,7 @@ from queue import LifoQueue as Pila
 from queue import Queue as Cola
 import random
 import typing
+import csv
 
 #Archivos
 
@@ -98,9 +99,46 @@ def agregar_frase_al_principio(nombre_archivo:str, frase:str):
 
 #Ejercicio 6
 
-#def listar_palabras_de_archivo(nombre_archivo:str) -> list:
+def listar_palabras_de_archivo(nombre_archivo:str) -> list:
+    archivo = open(nombre_archivo,'rb')
+    contenido = archivo.read()
+    palabra = ""
+    lista = []
+    for byte in contenido:
+        char = chr(byte)
+        if char_valido(char):
+            palabra += char
+        else:
+            if len(palabra) >= 5:
+                lista.append(palabra)
+            palabra = ""
+    return lista
+            
+def char_valido(char:str) -> bool:
+    if (char >= 'a' and char <= 'z') or (char >= 'A' and char <= 'Z') or (char >= '1' and char <= '9') or (char == ' ') or (char == '_'):
+        return True
         
+    
+#print(listar_palabras_de_archivo("marcos.txt"))
+        
+#Ejercicio 7
 
+def promedio_estudiante(nombre_archivo:str,lu:str):
+    archivo = open(nombre_archivo,'r')
+    lector = csv.reader(archivo)
+    notas = 0
+    cantidad = 0
+    for fila in lector:
+        libreta, materia, fecha, nota = fila
+        if libreta == lu:
+            notas += float(nota)
+            cantidad += 1
+    if cantidad == 0:
+        return 0.0
+    else:
+        return notas / cantidad
+        
+                
 #Pilas
 
 #Ejercicio 8
@@ -521,4 +559,4 @@ actualizar_stock(inventario,"remera",2)
 
 #print(inventario)
 
-print(calcular_valor_inventario(inventario))
+#print(calcular_valor_inventario(inventario))
