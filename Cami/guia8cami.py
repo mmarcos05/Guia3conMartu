@@ -517,45 +517,33 @@ c = clientes()
 cola_atencion = atencion_a_clientes(c)
 #print(cola_atencion.queue)
 
+#DICCIONARIOS
+# diccionario vacío: d:dict = {}
+# diccionario con elementos: {'Messi':3, 'Ronaldo':2}
+# como obtengo el valor de una clave: d['Messi']
+# como cambio el valor de una clave: d['Messi'] = 5
+#                                    d['Messi'] = d['Messi'] + 1
+# como agrego nuevos pares clave y valor: d['Neymar'] = 7
+# 'in' se puede usar sólo para diccionarios
+# d.items() = devuelve una lista de tuplas con los pares (clave,valor)
+
 
 #EJERCICIO 19
-def separar_palabras(linea:str) -> List[str]:
-    palabra:str = ''
-    lista:List[str] = []
-    for caracter in linea:
-        if caracter != ' ':
-            palabra += caracter
+def mi_split(linea:str) -> List[str]:
+    res:List[str] = []
+    palabra = ""
+    for char in linea:
+        if char == " " or char == "\t" or char == "\n" or char == "\r":
+            if len(palabra) > 0:
+                res.append(palabra)
+                palabra = ""
         else:
-            lista.append(palabra)
-            palabra = ''
-    lista.append(palabra)
-    return lista
+            palabra += char
+    if len(palabra) > 0: #para añadir la última palabra si no termina en un espacio
+        res.append(palabra)
+    return res
 
-#print(separar_palabras("hola todo bien soy cami"))
-
-def contar_letras(palabra:str) -> int:
-    total_letras:int = 0
-    for caracter in palabra:
-        total_letras += 1
-    return total_letras
-
-#print(contar_letras("hola"))
-
-"""def misma_longitud(lista:List[str]) -> int:
-    total:int = 0
-    for i in lista:
-        if contar_letras(lista[i]) == 
- 
-def agrupar_por_longitud(nombre_archivo:str) -> dict:
-    diccionario:dict = {}
-    archivo:typing.IO = open(nombre_archivo, 'r')
-    lineas:List = archivo.readlines()
-    lista:List = separar_palabras(linea)
-    for linea in lineas:
-        for i in lista:
-            diccionario[contar_letras(lista[i])] = """
-
-#EJ 19 PROFE
+#print(mi_split("hola soy cami"))
 def pertenece_dic (d:dict, k) -> bool:
     lista = list(d.keys())
     for e in lista:
@@ -563,8 +551,10 @@ def pertenece_dic (d:dict, k) -> bool:
             return True
     return False
 
-#def palabras_de_archivo(nombre_Archivo:str) -> list[str]:
-
+def palabras_de_archivo(nombre_archivo: str) -> List[str]:
+    archivo = open(nombre_archivo, 'r')
+    contenido = archivo.read()
+    return mi_split(contenido)
 
 def agrupar(nombre_archivo:str) -> dict:
     palabras:List[str] = listar_palabras_de_archivo(nombre_archivo)
@@ -578,7 +568,121 @@ def agrupar(nombre_archivo:str) -> dict:
     return res
 
 #EJERCICIO 21
+ # voy a crear un diccionario en el cual las claves sean 
+ #las palabras del archivo y sus valores sean la cantidad 
+ #de veces que aparecen
 
-    """for linea in lineas:
-        for i in lista:
-            diccionario[contar_letras(lista[i])] ="""
+def mi_split_2(linea:str) -> List[str]:
+    res:List[str] = []
+    palabra:str = ""
+
+    for caracter in linea:
+        if caracter == " " or caracter == "\t" or caracter == "\n" or caracter == "\r":
+            res.append(palabra)
+            palabra = ""
+        else:
+            palabra += caracter
+    if len(palabra) > 0:
+        res.append(palabra)
+    return res
+
+#print(mi_split_2("hola soy cami"))
+
+def palabras_de_archivo_2(nombre_archivo:str) -> List[str]:
+    archivo:typing.IO = open(nombre_archivo, 'r')
+    lineas:List[str] = archivo.readlines()
+    archivo.close()
+    res:List[str] = []
+    for linea in lineas:
+        res += mi_split_2(linea)
+    return res
+
+#print(palabras_de_archivo_2("archivo.txt"))}
+
+"""def cantidad_apariciones(nombre_archivo:str, palabra:str) -> int:
+    palabras:List[str] = palabras_de_archivo_2(nombre_archivo)
+    apariciones:int = 0
+    for p in palabras:
+        if p == palabra:
+            apariciones += 1
+    return apariciones"""
+
+def dic_palabras(nombre_archivo:str) -> dict:
+    res:dict[str, int] = {}
+    palabras:List[str] = palabras_de_archivo_2(nombre_archivo)
+    for p in palabras:
+        if p in res:
+            res[p] += 1
+        else:
+            res[p] = 1
+    return res
+
+#print(dic_palabras("archivo.txt"))
+
+def la_palabra_mas_frecuente(nombre_archivo:str) -> str:   
+    #d.items() = [(clave, valor),(clave2, valor2)...]
+    d:dict[str, int] = dic_palabras(nombre_archivo)
+    lista_tuplas:List[tuple] = list(d.items())
+    maximo = (lista_tuplas.pop())
+    for candidato in lista_tuplas:
+        if candidato[1] > maximo[1]:
+            maximo = candidato
+    return maximo[0]
+
+#print(la_palabra_mas_frecuente("archivo.txt"))
+
+#EJERCICIO 22
+def visitar_sitio(historiales:dict, usuario:str, sitio:str) -> None:
+    historiales[usuario] = Pila()
+    if not usuario in list(historiales.keys()):
+        historiales[usuario].put(sitio)
+
+def navegar_atras(historiales:dict, usuario:str) -> None:
+    historiales[usuario] = Pila()
+
+    if not usuario in list(historiales.keys()):
+        input("el usuario no tiene historial de navegación")
+    if historiales[usuario].empty():
+        input("No hay sitios anteriores en el historial de navegación")
+    historiales[usuario].get()
+    if historiales[usuario].empty():
+        input("Es el principio de su historial de navegación")
+    else:
+        ultimo_visitado:str = historiales[usuario].get()
+        historiales[usuario].put(ultimo_visitado)
+
+
+#EJERCICIO 23
+def agregar_producto(inventario:dict, nombre:str, precio:float, cantidad:int) -> None:
+    #dict[str, dict[str, int]]
+    info:dict = dict()
+    info["precio"] = precio
+    info["cantidad"] = cantidad
+    inventario[nombre] = info
+
+inventario:dict = {}
+agregar_producto(inventario, "Camisa", 20.0, 50)
+agregar_producto(inventario, "Pantalon", 30.0, 30)
+#agregar_producto(inventario, "medias", 1500, 5)
+#print(inventario)
+
+def actualizar_stock(inventario:dict, nombre:str, cantidad:int) -> None:
+    info:dict = dict()
+    inventario[nombre]["cantidad"] = cantidad
+
+actualizar_stock(inventario, "Camisa", 10)
+#print(inventario)
+
+def calcular_valor_inventario(inventario:dict) -> float:
+    #inventario.items() = [(nombre1, {info}), (nombre2, {info}), ...]
+    #info.items() = [(precio, valor), (cantidad, valor)]
+    total:float = 0.0
+    lista:List[tuple] = list(inventario.items())
+    for i in lista:
+        info:dict = i[1]
+        datos:List[tuple] = list(info.items())
+        total += ((datos[0])[1] * (datos[1])[1])
+    return total
+
+valor_total = calcular_valor_inventario(inventario)
+print("Valor total del inventario:", valor_total)
