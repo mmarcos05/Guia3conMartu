@@ -337,13 +337,13 @@ def buscar_el_maximo(p:Pila[int]) -> int:
             maximo_actual = comparador
     return maximo_actual
 
-pila: Pila = Pila()
-pila.put(2)
-pila.put(4)
-pila.put(20)
-pila.put(1)
-pila.put(6)
-print(buscar_el_maximo(pila))
+# pila: Pila = Pila()
+# pila.put(2)
+# pila.put(4)
+# pila.put(20)
+# pila.put(1)
+# pila.put(6)
+# print(buscar_el_maximo(pila))
 
 # Ejercicio 11
 def esta_bien_balanceada(s:str) -> bool:
@@ -724,7 +724,6 @@ def navegar_atras(historiales:dict[str, Pila[str]], usuario:str) -> None:
 # Ejercicio 23
 def agregar_producto(inventario: dict[dict[str,str]], nombre:str , precio: float, cantidad: int) -> None:
     info_producto: dict[str,str] = dict()
-    info_producto["nombre"] = nombre
     info_producto["precio"] = precio
     info_producto["cantidad"] = cantidad
 
@@ -737,19 +736,19 @@ def agregar_producto(inventario: dict[dict[str,str]], nombre:str , precio: float
 # print(inventario)
 
 def actualizar_stock(inventario, nombre, cantidad) -> None:
-    if nombre == inventario[nombre]["nombre"]:
+    if nombre in inventario:
         inventario[nombre]["cantidad"] = cantidad
 
-# inventario = {'manzana': {'nombre': 'manzana', 'precio': 20.0, 'cantidad': 2}, 'pera': {'nombre': 'pera', 'precio': 28.0, 'cantidad': 6}, 'naranja': {'nombre': 'naranja', 'precio': 10.0, 'cantidad': 5}}
-# actualizar_stock(inventario, 'manzana', '155')
+# inventario = {'manzana': {'precio': 20.0, 'cantidad': 2}, 'pera': {'precio': 28.0, 'cantidad': 6}, 'naranja': {'precio': 10.0, 'cantidad': 5}}
+# actualizar_stock(inventario, 'pera', '15')
 # print(inventario)
 
 def actualizar_precios(inventario, nombre, precio) -> None:
-    if nombre == inventario[nombre]['nombre']:
-        inventario[nombre]['precio'] = precio
+    if nombre in inventario:
+        inventario[nombre]["precio"] = precio
 
-# inventario = {'manzana': {'nombre': 'manzana', 'precio': 20.0, 'cantidad': 2}, 'pera': {'nombre': 'pera', 'precio': 28.0, 'cantidad': 6}, 'naranja': {'nombre': 'naranja', 'precio': 10.0, 'cantidad': 5}}
-# actualizar_precios(inventario, 'pera', '19.0')
+# inventario = {'manzana': {'precio': 20.0, 'cantidad': 2}, 'pera': {'precio': 28.0, 'cantidad': 6}, 'naranja': {'precio': 10.0, 'cantidad': 5}}
+# actualizar_precios(inventario, 'manzana', '19.0')
 # print(inventario)
 
 def calcular_valor_inventario(inventario) -> float:
