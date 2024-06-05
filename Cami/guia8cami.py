@@ -517,45 +517,33 @@ c = clientes()
 cola_atencion = atencion_a_clientes(c)
 #print(cola_atencion.queue)
 
+#DICCIONARIOS
+# diccionario vacío: d:dict = {}
+# diccionario con elementos: {'Messi':3, 'Ronaldo':2}
+# como obtengo el valor de una clave: d['Messi']
+# como cambio el valor de una clave: d['Messi'] = 5
+#                                    d['Messi'] = d['Messi'] + 1
+# como agrego nuevos pares clave y valor: d['Neymar'] = 7
+# 'in' se puede usar sólo para diccionarios
+# d.items() = devuelve una lista de tuplas con los pares (clave,valor)
+
 
 #EJERCICIO 19
-def separar_palabras(linea:str) -> List[str]:
-    palabra:str = ''
-    lista:List[str] = []
-    for caracter in linea:
-        if caracter != ' ':
-            palabra += caracter
+def mi_split(linea:str) -> List[str]:
+    res:List[str] = []
+    palabra = ""
+    for char in linea:
+        if char == " " or char == "\t" or char == "\n" or char == "\r":
+            if len(palabra) > 0:
+                res.append(palabra)
+                palabra = ""
         else:
-            lista.append(palabra)
-            palabra = ''
-    lista.append(palabra)
-    return lista
+            palabra += char
+    if len(palabra) > 0: #para añadir la última palabra si no termina en un espacio
+        res.append(palabra)
+    return res
 
-#print(separar_palabras("hola todo bien soy cami"))
-
-def contar_letras(palabra:str) -> int:
-    total_letras:int = 0
-    for caracter in palabra:
-        total_letras += 1
-    return total_letras
-
-#print(contar_letras("hola"))
-
-"""def misma_longitud(lista:List[str]) -> int:
-    total:int = 0
-    for i in lista:
-        if contar_letras(lista[i]) == 
- 
-def agrupar_por_longitud(nombre_archivo:str) -> dict:
-    diccionario:dict = {}
-    archivo:typing.IO = open(nombre_archivo, 'r')
-    lineas:List = archivo.readlines()
-    lista:List = separar_palabras(linea)
-    for linea in lineas:
-        for i in lista:
-            diccionario[contar_letras(lista[i])] = """
-
-#EJ 19 PROFE
+#print(mi_split("hola soy cami"))
 def pertenece_dic (d:dict, k) -> bool:
     lista = list(d.keys())
     for e in lista:
@@ -563,8 +551,10 @@ def pertenece_dic (d:dict, k) -> bool:
             return True
     return False
 
-#def palabras_de_archivo(nombre_Archivo:str) -> list[str]:
-
+def palabras_de_archivo(nombre_archivo: str) -> List[str]:
+    archivo = open(nombre_archivo, 'r')
+    contenido = archivo.read()
+    return mi_split(contenido)
 
 def agrupar(nombre_archivo:str) -> dict:
     palabras:List[str] = listar_palabras_de_archivo(nombre_archivo)
@@ -577,8 +567,12 @@ def agrupar(nombre_archivo:str) -> dict:
             res[t] = 1
     return res
 
+#EJERCICIO 20
+
+
 #EJERCICIO 21
+
 
     for linea in lineas:
         for i in lista:
-            diccionario[contar_letras(lista[i])] = """
+            diccionario[contar_letras(lista[i])] 
