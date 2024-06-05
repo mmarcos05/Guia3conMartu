@@ -454,7 +454,7 @@ m.put(3)
 m.put(4)
 
 u = (invertir_pila(m))
-print(u.queue)
+#print(u.queue)
 
 def navegar_atras(historiales:dict[str,Pila[str]], usuario:str) -> None:
     user = usuario
@@ -470,18 +470,55 @@ def navegar_atras(historiales:dict[str,Pila[str]], usuario:str) -> None:
     
 
 
-visitar_sitio(historiales, "user1", "instagram.com")
-visitar_sitio(historiales, "user2", "facebook.com")
-visitar_sitio(historiales, "user1", "whatsapp.com")
-pila1 = historiales["user1"]
-pila2 = historiales["user2"]
+#visitar_sitio(historiales, "user1", "instagram.com")
+#visitar_sitio(historiales, "user2", "facebook.com")
+#visitar_sitio(historiales, "user1", "whatsapp.com")
+#pila1 = historiales["user1"]
+#pila2 = historiales["user2"]
  
-print(f'Historial de user1: {pila1.queue}')
-print(f'Historial de user2: {pila2.queue}')
+#print(f'Historial de user1: {pila1.queue}')
+#print(f'Historial de user2: {pila2.queue}')
  
-navegar_atras(historiales, "user1")
-navegar_atras(historiales, "user2")
-pila1 = historiales["user1"]
-pila2 = historiales["user2"]
-print(f'Historial de user1: {pila1.queue}')
-print(f'Historial de user2: {pila2.queue}')
+#navegar_atras(historiales, "user1")
+#navegar_atras(historiales, "user2")
+#pila1 = historiales["user1"]
+#pila2 = historiales["user2"]
+#print(f'Historial de user1: {pila1.queue}')
+#print(f'Historial de user2: {pila2.queue}')
+
+#Ejercicio 23
+
+inventario = {}
+
+def agregar_producto(inventario:dict[str,dict[str,str]],nombre:str,precio:str,cantidad:str):
+    inventario[nombre] = {"precio":precio,"cantidad":cantidad}
+
+def actualizar_stock(inventario:dict[str,dict[str,str]],nombre:str,cantidad:str):
+    info = inventario[nombre]
+    info["cantidad"] = cantidad
+    inventario[nombre] = info
+
+def actualizar_precios(inventario:dict[str,dict[str,str]],nombre:str,precio:str):
+    info = inventario[nombre]
+    info["precio"] = precio
+    inventario[nombre] = info
+    
+def calcular_valor_inventario(inventario:dict[str,dict[str,str]]) -> float:
+    copia = inventario
+    valor_inventario = 0
+    for nombre,productos in copia.items():
+        valor_prod = productos["precio"] * productos["cantidad"]
+        valor_inventario += valor_prod
+    return valor_inventario
+            
+    
+agregar_producto(inventario,"remera",1000,4)
+agregar_producto(inventario,"gorra",500,4)
+
+#print(inventario)
+
+actualizar_stock(inventario,"remera",2)
+
+#print(inventario)
+
+print(calcular_valor_inventario(inventario))
