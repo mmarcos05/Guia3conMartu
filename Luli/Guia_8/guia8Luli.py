@@ -337,13 +337,13 @@ def buscar_el_maximo(p:Pila[int]) -> int:
             maximo_actual = comparador
     return maximo_actual
 
-# pila: Pila = Pila()
-# pila.put(2)
-# pila.put(4)
-# pila.put(20)
-# pila.put(1)
-# pila.put(6)
-# print(buscar_el_maximo(pila))
+pila: Pila = Pila()
+pila.put(2)
+pila.put(4)
+pila.put(20)
+pila.put(1)
+pila.put(6)
+print(buscar_el_maximo(pila))
 
 # Ejercicio 11
 def esta_bien_balanceada(s:str) -> bool:

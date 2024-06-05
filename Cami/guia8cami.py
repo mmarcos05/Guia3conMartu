@@ -572,7 +572,6 @@ def agrupar(nombre_archivo:str) -> dict:
 
 #EJERCICIO 21
 
-
     for linea in lineas:
         for i in lista:
             diccionario[contar_letras(lista[i])] 
