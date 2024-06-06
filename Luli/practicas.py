@@ -1,6 +1,4 @@
 import random
-from queue import LifoQueue as Pila
-from queue import Queue as Cola
 
 # PRACTICA 7
 

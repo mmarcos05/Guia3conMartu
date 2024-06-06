@@ -1,3 +1,6 @@
+from queue import LifoQueue as Pila
+from queue import Queue as Cola
+
 # PRACTICA 8 - PILAS
 
 def copiar_pila(p: Pila) -> Pila:
