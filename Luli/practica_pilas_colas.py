@@ -188,4 +188,48 @@ def jugar_bingo(carton: list[int], bolillero: Cola[int]) -> int:
             jugadas += 1
     return jugadas
 
- 
+# --
+
+def n_pacientes_urgentes(c: Cola[(int,str,str)]) -> int:
+    contador: int = 0
+    copia: Cola[(int,str,str)] = copiar_cola(c)
+
+    while not copia.empty():
+        datos_paciente: tuple[int,str,str] = copia.get()
+        prioridad: int = datos_paciente[0]
+
+        if prioridad >= 1 and prioridad <= 3:
+            contador += 1
+
+    return contador
+
+# --
+
+def atencion_a_clientes(c: Cola[(str,int,bool,bool)]) -> Cola[(str,int,bool,bool)]:
+    copia: Cola[(str,int,bool,bool)] = copiar_cola(c)
+    orden_de_atencion: Cola[(str,int,bool,bool)] = Cola()
+
+    con_prioridad: Cola[(str,int,bool,bool)] = Cola()
+    cuenta_preferencial: Cola[(str,int,bool,bool)] = Cola()
+    resto: Cola[(str,int,bool,bool)] = Cola()
+
+    while not copia.empty():
+        datos_cliente: tuple[(str,int,bool,bool)] = copia.get()
+        prioridad: bool = datos_cliente[3]
+        preferencial: bool = datos_cliente[2]
+
+        if prioridad:
+            con_prioridad.put(datos_cliente)
+        elif preferencial:
+            cuenta_preferencial.put(datos_cliente)
+        else: 
+            resto.put(datos_cliente)
+    
+    while not con_prioridad.empty():
+        orden_de_atencion.put(con_prioridad.get())
+    while not cuenta_preferencial.empty():
+        orden_de_atencion.put(cuenta_preferencial.get())
+    while not resto.empty():
+        orden_de_atencion.put(resto.get())
+
+    return orden_de_atencion
