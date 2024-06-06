@@ -1,4 +1,6 @@
 import random
+from queue import LifoQueue as Pila
+from queue import Queue as Cola
 
 # PRACTICA 7
 
@@ -272,7 +274,7 @@ def filas_ordenadas(matriz: list[list[int]], res: list[bool]) -> None:
         else:
             res.append(False)
 
-res = []
-matriz = [[1,4,3],[4,5,3],[19,8,9]]
-filas_ordenadas(matriz, res)
-print(res)
+# res = []
+# matriz = [[1,4,3],[4,5,3],[19,8,9]]
+# filas_ordenadas(matriz, res)
+# print(res)
