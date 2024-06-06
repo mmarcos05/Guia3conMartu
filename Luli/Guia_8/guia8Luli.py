@@ -353,7 +353,7 @@ def esta_bien_balanceada(s:str) -> bool:
         if char == '(':
             pila.put(char) #Si hay un '(' lo agrega a una pila
         elif char == ')':
-            if pila.empty(): #Si no hay un ')' entonces ya es False
+            if pila.empty(): #Si no hay un '(' entonces ya es False
                 return False
             pila.get() #Si hay un ')' entonces saca el '(' que pusimos antes (los voy cancelando)
     
