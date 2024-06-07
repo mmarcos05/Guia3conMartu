@@ -688,7 +688,7 @@ def la_palabra_mas_frecuente(nombre_archivo:str) -> str:
 
 # Ejercicio 22
 def visitar_sitio(historiales:dict[str, Pila[str]], usuario:str, sitio:str) -> None:
-    if not pertenece(usuario, list(historiales.keys())):
+    if not usuario in historiales.keys():
         historiales[usuario] = Pila()
     historiales[usuario].put(sitio)
 
@@ -700,26 +700,27 @@ def navegar_atras(historiales:dict[str, Pila[str]], usuario:str) -> None:
     if historiales[usuario].empty():
         print(f"No hay sitios anteriores en el historial de {usuario}")
     
-    historiales[usuario].get() # Descarto el ultimo
+    ultimo_sitio_visitado = historiales[usuario].get() # Descarto el ultimo
     if not historiales[usuario].empty():
         anterior_sitio_visitado = historiales[usuario].get() # Ahora si agarro el que era el anteúltimo
         historiales[usuario].put(anterior_sitio_visitado) # Lo convierto en el ultimo para que me lo imprima
         print(f"Navegaste hacia atras a {anterior_sitio_visitado} en el historial de {usuario}")
+        historiales[usuario].put(ultimo_sitio_visitado)
     else:
         print(f"Es el principio del historial de navegacion de {usuario}")
         
-# historiales = {}
-# visitar_sitio(historiales, "user1", "instagram.com")
-# visitar_sitio(historiales, "user2", "facebook.com")
-# visitar_sitio(historiales, "user1", "whatsapp.com")
-# pila1 = historiales["user1"]
-# pila2 = historiales["user2"]
+historiales = {}
+visitar_sitio(historiales, "user1", "instagram.com")
+visitar_sitio(historiales, "user2", "facebook.com")
+visitar_sitio(historiales, "user1", "whatsapp.com")
+pila1 = historiales["user1"]
+pila2 = historiales["user2"]
  
-# print(f'Historial de user1: {pila1.queue}')
-# print(f'Historial de user2: {pila2.queue}')
+print(f'Historial de user1: {pila1.queue}')
+print(f'Historial de user2: {pila2.queue}')
  
-# navegar_atras(historiales, "user1")
-# navegar_atras(historiales, "user2")
+navegar_atras(historiales, "user1")
+navegar_atras(historiales, "user2")
 
 # Ejercicio 23
 def agregar_producto(inventario: dict[dict[str,str]], nombre:str , precio: float, cantidad: int) -> None:
