@@ -426,3 +426,78 @@ def imprimir_documento(impresiones: dict[str, Cola], usuario: str) -> str:
 # print(imprimir_documento(impresiones, "Usuario4"))  # Debería imprimir "No hay documentos pendientes para este usuario"
 # print(imprimir_documento(impresiones, "Usuario2"))  # Debería imprimir "Documento1.2"
 # print(imprimir_documento(impresiones, "Usuario2"))  # Debería imprimir "No hay documentos pendientes para este usuario"
+
+# -- 
+
+# En una empresa de desarrollo de software, se gestionan varios proyectos. 
+    # proyectos = {proyecto: {proyecto}}
+# Cada proyecto tiene un nombre y un conjunto de tareas asociadas.    
+    # proyecto = {nombre, {tareas}}
+# Cada tarea tiene un estado (pendiente, en progreso, completada) y una persona asignada para realizarla.
+    # tareas = {estado, persona}
+# Vamos a implementar un sistema para gestionar esta información utilizando diccionarios.
+
+def agregar_proyecto(proyectos: dict[str, dict[str, dict[str, str]]], nombre_proyecto: str) -> None:
+# Añade un nuevo proyecto con un nombre dado. El valor inicial debe ser un diccionario vacío de tareas.
+    if nombre_proyecto not in proyectos.keys():
+        proyectos[nombre_proyecto] = {} # Creo el diccionario de proyecto
+
+def agregar_tarea(proyectos: dict[str, dict[str, dict[str, str]]], nombre_proyecto: str, nombre_tarea: str, persona_asignada: str) -> None:
+# Añade una nueva tarea a un proyecto existente. La tarea debe tener el estado inicial "pendiente" y la persona asignada.
+    if nombre_proyecto in proyectos.keys():
+        proyectos[nombre_proyecto][nombre_tarea] = {"Estado": "pendiente", "Persona": persona_asignada}
+        
+def actualizar_estado(proyectos: dict[str, dict[str, dict[str, str]]], nombre_proyecto: str, nombre_tarea: str, nuevo_estado: str) -> None:
+# Actualice el estado de una tarea en un proyecto existente.
+    if nombre_proyecto in proyectos.keys():
+        proyectos[nombre_proyecto][nombre_tarea]["Estado"] = nuevo_estado
+
+def eliminar_tarea(proyectos: dict[str, dict[str, dict[str, str]]], nombre_proyecto: str, nombre_tarea: str) -> None:
+# Elimina una tarea de un proyecto.
+    if nombre_proyecto in proyectos:
+        proyectos[nombre_proyecto].pop(nombre_tarea)
+
+def obtener_tareas_por_estado(proyectos: dict[str, dict[str, dict[str, str]]], nombre_proyecto: str, estado: str) -> list[str]:
+# Devuelva una lista con los nombres de las tareas que están en un estado dado dentro de un proyecto.
+    lista_final: list[str] = []
+    if nombre_proyecto in proyectos:
+        for nombre_tarea in proyectos[nombre_proyecto].keys():
+            if proyectos[nombre_proyecto][nombre_tarea]["Estado"] == estado:
+                lista_final.append(nombre_tarea)
+    return lista_final
+
+
+# Ejemplo de uso
+proyectos = {}
+
+# Agregar proyectos
+agregar_proyecto(proyectos, "Proyecto A")
+agregar_proyecto(proyectos, "Proyecto B")
+
+# Agregar tareas
+agregar_tarea(proyectos, "Proyecto A", "Tarea 1", "Alice")
+agregar_tarea(proyectos, "Proyecto A", "Tarea 2", "Bob")
+agregar_tarea(proyectos, "Proyecto B", "Tarea 1", "Charlie")
+agregar_tarea(proyectos, "Proyecto B", "Tarea 2", "Marta")
+
+# Actualizar estado
+actualizar_estado(proyectos, "Proyecto A", "Tarea 1", "en progreso")
+actualizar_estado(proyectos, "Proyecto A", "Tarea 2", "completada")
+actualizar_estado(proyectos, "Proyecto B", "Tarea 2", "completada")
+
+
+# Eliminar tarea
+eliminar_tarea(proyectos, "Proyecto B", "Tarea 1")
+
+# Obtener tareas por estado
+tareas_pendientes = obtener_tareas_por_estado(proyectos, "Proyecto A", "pendiente")
+print("Tareas pendientes en Proyecto A:", tareas_pendientes)  # Debería imprimir: []
+
+tareas_en_progreso = obtener_tareas_por_estado(proyectos, "Proyecto A", "en progreso")
+print("Tareas en proceso en Proyecto A:", tareas_en_progreso)  # Debería imprimir: ['Tarea 1']
+
+tareas_completadas = obtener_tareas_por_estado(proyectos, "Proyecto A", "completada")
+print("Tareas completadas en Proyecto A:", tareas_completadas)  # Debería imprimir: ['Tarea 2']
+
+# Mostrar todos los proyectos y tareas
+print("Proyectos:", proyectos)
