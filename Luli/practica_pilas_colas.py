@@ -101,6 +101,69 @@ def evaluar_expresion(s: str) -> float:
             pila.put(res)
     return float(pila.get())
 
+# -- 
+
+def revertir_lista(lista: list[int]) -> list[int]:
+    p: Pila[int] = Pila()
+    lista_final: list[int] = []
+
+    for numero in lista:
+        p.put(numero)
+    
+    while not(p.empty()):
+        lista_final.append(p.get())  
+    
+    return lista_final
+
+# --
+
+def es_palindromo_pilas(texto: str) -> bool:
+    res: bool = False
+    pila: Pila[str] = Pila()
+    texto_final: str = ""
+
+    for letra in texto:
+        pila.put(letra)
+    
+    while not pila.empty():
+        texto_final += pila.get()
+    
+    if texto_final == texto:
+        res = True
+    return res
+
+# --
+
+def revertir_cola_con_pila(cola: Cola[int]) -> None:
+    pila: Pila[int] = Pila()
+
+    while not cola.empty(): 
+        pila.put(cola.get())
+
+    while not pila.empty():
+        cola.put(pila.get())
+
+# -- 
+
+def validar_html(html: str) -> bool:
+# verifica si las etiquetas HTML están correctamente balanceadas utilizando una pila. 
+# Las etiquetas serán del tipo <tag> y </tag>
+    p: Pila[str] = Pila()
+
+    for chr in html:
+        if chr == '<' or chr == '</':
+            p.put(chr)
+        elif chr == '>':
+            if p.empty():
+                return False
+            else: 
+                p.get()
+    return p.empty()
+
+# html = "<html><body><h1></h1></body></html>"
+# valido = validar_html(html)
+# print(valido)  # Debería imprimir: True
+
 # PRACTICA 8 - COLAS 
 
 def copiar_cola(c: Cola) -> Cola:
