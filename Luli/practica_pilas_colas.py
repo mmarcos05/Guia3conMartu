@@ -2,6 +2,20 @@ from queue import LifoQueue as Pila
 from queue import Queue as Cola
 import random
 
+def separar_en_palabras(linea: str) -> list:
+    palabras = []
+    palabra = ""
+    for caracter in linea:
+        if caracter == ' ' or caracter == '"' or caracter == '\n' or caracter == '\r' or caracter == '\t':
+            if palabra:  # Añade solo si palabra no está vacía (es lo mismo que decir if len(palabra) > 0)
+                palabras.append(palabra)
+                palabra = ''
+        else: 
+            palabra += caracter
+    if palabra:  # Añadir la última palabra si no está vacía
+        palabras.append(palabra)
+    return palabras
+
 # PRACTICA 8 - PILAS
 
 def copiar_pila(p: Pila) -> Pila:
@@ -179,6 +193,90 @@ def copiar_cola(c: Cola) -> Cola:
         c.put(elem)
         res.put(elem)
     return res
+
+# --
+
+def es_correo_spam(correo: str) -> bool:
+# Es considerado spam si contiene la palabra "OFERTA", "PUBLICIDAD", "ATENCION" o "DESCUENTO"
+    palabras_correo: list[str] = separar_en_palabras(correo)
+
+    for palabra in palabras_correo:
+        if palabra == "OFERTA" or palabra == "PUBLICIDAD" or palabra == "ATENCION" or palabra == "DESCUENTO":
+            return True
+    return False
+
+def procesar_correos(correos: Cola[str]) -> tuple[list[str], list[str]]:
+# Procesa una cola de correos electrónicos, clasificando entre correos legítimos y correos no deseados (spam).
+# Para los correos legítimos, agregarlos a una lista de correos aceptados.
+# Para los correos spam, agregarlos a una lista de correos no deseados
+
+    correo_spam: list[str] = []
+    correo_aceptado: list[str] = []
+
+    while not correos.empty():
+        correo: str = correos.get()
+        if es_correo_spam(correo):
+            correo_spam.append(correo)
+        else: 
+            correo_aceptado.append(correo)
+
+    return correo_spam, correo_aceptado
+
+# correos: Cola[str] = Cola()
+# correos.put("ATENCION OFERTA!!")
+# correos.put("Buen dia, como estas?")
+# correos.put("Hoy hay DESCUENTO")
+# print(procesar_correos(correos)) # deberia imprmir (['ATENCION OFERTA!!', 'Hoy hay DESCUENTO'], ['Buen dia, como estas?'])
+
+# --
+
+# Simulacion de supermercado
+def llegada_clientes(cola: Cola[str], nombre_cliente: str) -> None:
+    cola.put(nombre_cliente)
+
+def atender_cliente(cola: Cola[str]) -> str:
+    proximo: str = cola.get()
+    return proximo
+
+def obtener_estadisticas(cola: Cola[str]) -> dict[str, str]:
+    # dict = {cantidad de clientes: contador, proximo: nombre}
+    copia = copiar_cola(cola)
+    proximo = ""
+    contador: int = 0
+
+    while not copia.empty():
+        cliente = copia.get()
+        contador += 1
+        if proximo == "":
+            proximo = cliente
+
+    dicc = dict()
+    dicc["Cantidad de clientes"] = contador 
+    dicc["Proximo cliente"] = proximo
+    return dicc
+
+# c = Cola()
+# c.put("Julio")
+# c.put("Maria")
+# print(c.queue)
+# print(obtener_estadisticas(c))
+
+# --
+
+def encolar_llamada(llamadas_entrantes: Cola, llamada: tuple[str, int]) -> None:
+    llamadas_entrantes.put(llamada)
+
+def asignar_llamada(llamadas_entrantes: Cola, agentes_disponibles: Cola) -> tuple[str, str]:
+    llamada: str = llamadas_entrantes.get()
+    agente: str = agentes_disponibles.get()
+
+    return llamada, agente
+
+def registrar_tiempo_espera(tiempo_espera: dict[str, int], cliente: str, tiempo: int) -> None:
+    if not cliente in tiempo_espera.keys():
+        tiempo_espera[cliente] = tiempo
+    else: 
+        tiempo_espera[cliente] += tiempo
 
 # --
 
