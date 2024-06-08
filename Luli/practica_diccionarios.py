@@ -468,36 +468,104 @@ def obtener_tareas_por_estado(proyectos: dict[str, dict[str, dict[str, str]]], n
 
 
 # Ejemplo de uso
-proyectos = {}
+# proyectos = {}
 
 # Agregar proyectos
-agregar_proyecto(proyectos, "Proyecto A")
-agregar_proyecto(proyectos, "Proyecto B")
+# agregar_proyecto(proyectos, "Proyecto A")
+# agregar_proyecto(proyectos, "Proyecto B")
 
 # Agregar tareas
-agregar_tarea(proyectos, "Proyecto A", "Tarea 1", "Alice")
-agregar_tarea(proyectos, "Proyecto A", "Tarea 2", "Bob")
-agregar_tarea(proyectos, "Proyecto B", "Tarea 1", "Charlie")
-agregar_tarea(proyectos, "Proyecto B", "Tarea 2", "Marta")
+# agregar_tarea(proyectos, "Proyecto A", "Tarea 1", "Alice")
+# agregar_tarea(proyectos, "Proyecto A", "Tarea 2", "Bob")
+# agregar_tarea(proyectos, "Proyecto B", "Tarea 1", "Charlie")
+# agregar_tarea(proyectos, "Proyecto B", "Tarea 2", "Marta")
 
 # Actualizar estado
-actualizar_estado(proyectos, "Proyecto A", "Tarea 1", "en progreso")
-actualizar_estado(proyectos, "Proyecto A", "Tarea 2", "completada")
-actualizar_estado(proyectos, "Proyecto B", "Tarea 2", "completada")
-
+# actualizar_estado(proyectos, "Proyecto A", "Tarea 1", "en progreso")
+# actualizar_estado(proyectos, "Proyecto A", "Tarea 2", "completada")
+# actualizar_estado(proyectos, "Proyecto B", "Tarea 2", "completada")
 
 # Eliminar tarea
-eliminar_tarea(proyectos, "Proyecto B", "Tarea 1")
+# eliminar_tarea(proyectos, "Proyecto B", "Tarea 1")
 
 # Obtener tareas por estado
-tareas_pendientes = obtener_tareas_por_estado(proyectos, "Proyecto A", "pendiente")
-print("Tareas pendientes en Proyecto A:", tareas_pendientes)  # Debería imprimir: []
+# tareas_pendientes = obtener_tareas_por_estado(proyectos, "Proyecto A", "pendiente")
+# print("Tareas pendientes en Proyecto A:", tareas_pendientes)  # Debería imprimir: []
 
-tareas_en_progreso = obtener_tareas_por_estado(proyectos, "Proyecto A", "en progreso")
-print("Tareas en proceso en Proyecto A:", tareas_en_progreso)  # Debería imprimir: ['Tarea 1']
+# tareas_en_progreso = obtener_tareas_por_estado(proyectos, "Proyecto A", "en progreso")
+# print("Tareas en proceso en Proyecto A:", tareas_en_progreso)  # Debería imprimir: ['Tarea 1']
 
-tareas_completadas = obtener_tareas_por_estado(proyectos, "Proyecto A", "completada")
-print("Tareas completadas en Proyecto A:", tareas_completadas)  # Debería imprimir: ['Tarea 2']
+# tareas_completadas = obtener_tareas_por_estado(proyectos, "Proyecto A", "completada")
+# print("Tareas completadas en Proyecto A:", tareas_completadas)  # Debería imprimir: ['Tarea 2']
 
 # Mostrar todos los proyectos y tareas
-print("Proyectos:", proyectos)
+# print("Proyectos:", proyectos)
+
+# --
+
+# En una biblioteca, se lleva un registro de los libros disponibles y los libros prestados. 
+# Queremos implementar un sistema de gestión para manejar esta información. 
+# Para esto, utilizaremos dos diccionarios: uno para los libros disponibles y otro para los libros prestados. 
+# Cada entrada en estos diccionarios tendrá el nombre del libro como clave y una pila (LifoQueue) o una cola (Queue) de personas como valor.
+
+def agregar_libro(disponibles: dict[str, Cola], nombre: str) -> None:
+# Agrega un nuevo libro a la lista de libros disponibles. El libro debe ser añadido con una cola vacía.
+    if nombre not in disponibles.keys():
+        disponibles[nombre] = Cola() #creo la cola vacia para el nombre del libro
+
+def prestar_libro(disponibles: dict[str, Cola], prestados: dict[str, Pila], nombre: str, persona: str) -> None:
+# Mueva un libro de la lista de disponibles a la lista de prestados, añadiendo la persona que lo presta a la pila de ese libro en el diccionario de prestados.
+    if (nombre in disponibles) and (not disponibles[nombre].empty()):
+        disponibles[nombre].get()
+        if nombre not in prestados.keys():
+            prestados[nombre] = Pila() #creo la pila vacia
+        prestados[nombre].put(persona) #pongo el nombre de la persona en la pila correspondiente al nombre del libro
+
+def devolver_libro(prestados: dict[str, Pila], disponibles: dict[str, Cola], nombre: str) -> None:
+# Mueva un libro de la lista de prestados a la lista de disponibles. La persona que devuelve el libro debe ser removida de la pila de ese libro en el diccionario de prestados y añadida a la cola del diccionario de disponibles
+    if (nombre in prestados) and (not prestados[nombre].empty()):
+        persona = prestados[nombre].get()
+        if nombre not in disponibles:
+            disponibles[nombre] = Cola()
+        disponibles[nombre].put(persona)
+        
+
+def agregar_a_lista_de_espera(disponibles: dict[str, Cola], nombre: str, persona: str) -> None:
+# Añade una persona a la lista de espera para un libro en el diccionario de disponibles.
+    if nombre in disponibles.keys():
+        disponibles[nombre].put(persona)
+
+# Ejemplo de uso
+# libros_disponibles = {}
+# libros_prestados = {}
+
+# Agregar libros a la biblioteca
+# agregar_libro(libros_disponibles, "1984")
+# agregar_libro(libros_disponibles, "El Principito")
+
+# Agregar personas a la lista de espera
+# agregar_a_lista_de_espera(libros_disponibles, "1984", "Persona1")
+# agregar_a_lista_de_espera(libros_disponibles, "1984", "Persona2")
+
+# print("\nLibros disponibles:")
+# for libro, cola in libros_disponibles.items():
+#     print(f"{libro}: {list(cola.queue)}")
+
+# Prestar libro a Persona1
+# prestar_libro(libros_disponibles, libros_prestados, "1984", "Persona1")
+
+# print("\nLibros prestados:")
+# for libro, pila in libros_prestados.items():
+#     print(f"{libro}: {list(pila.queue)}")
+
+# Devolver libro
+# devolver_libro(libros_prestados, libros_disponibles, "1984")
+
+# Mostrar resultados
+# print("\nLista final libros disponibles:")
+# for libro, cola in libros_disponibles.items():
+#     print(f"{libro}: {list(cola.queue)}")
+
+# print("\nLista final libros prestados:")
+# for libro, pila in libros_prestados.items():
+#     print(f"{libro}: {list(pila.queue)}")    
