@@ -94,8 +94,8 @@ def dia_menor_minima(temps: dict[int, (float, float)]) -> int:
     dia_actual: int = list(temps.keys())[0]
     minima_actual: float = temps[dia_actual][0]
 
-    for dia, tempes in temps.items():
-        min_dia: float = tempes[0]
+    for dia, tupla in temps.items():
+        min_dia: float = tupla[0]
         if min_dia < minima_actual:
             minima_actual = min_dia
             dia_actual = dia
@@ -193,7 +193,6 @@ def invertir_diccionario(diccionario: dict[str,int]) -> dict:
 # print(invertir_diccionario(dicc))
 
 # AHORA SI HAY NUMEROS REPETIDOS, QUE CADA VALOR DE ESA CLAVE SEA UNA LISTA DE TODAS LAS PALABRAS QUE LO TENGAN
-
 def invertir_diccionario_con_rep(diccionario: dict[str,int]) -> dict:
     invertido: dict[int,list[str]] = {}
 
