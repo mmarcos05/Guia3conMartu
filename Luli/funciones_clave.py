@@ -75,6 +75,12 @@ def capicua_str(texto: str) -> bool: # es lo mismo para lista de int
             return False
     return True
 
+def invertir_lista(lista:list[int]) -> bool:
+    res: list[int] = []
+    for i in range(len(lista) -1, -1, -1):
+        res.append(lista[i])
+    return res
+
 def eliminar_repetidos(s: str) -> str:
     nuevo_str: str = ""
     vistos: list = []
@@ -107,6 +113,14 @@ def pertenece_a_cada_uno(s: list[list[int]], e: int, res:list[bool]) -> None:
 # pertenece_a_cada_uno(listas, 5, res)
 # print(res)
 
+def lista_simetrica(lista):
+    mitad = int(len(lista) / 2)
+    i = 0
+    while i < mitad:
+        if lista[i] != lista[mitad + i]:
+            return False
+        i += 1
+
 def es_matriz(matriz: list[list[int]]) -> bool:
     fila: list[int]
 
@@ -117,6 +131,18 @@ def es_matriz(matriz: list[list[int]]) -> bool:
         if len(fila) != len(matriz[0]):
             return False
     return True
+
+def invertir_matriz(m:list[list[int]]) -> list[list[int]]:
+    i = 0
+    nueva_matriz = []
+    nueva_fila = []
+    while i < len(m):
+        for fila in m:
+            nueva_fila.append(fila[i])
+        nueva_matriz.append(nueva_fila)
+        nueva_fila = []
+        i += 1
+    return nueva_matriz 
 
 def columna_matriz(m: list[list[int]], num_col: int) -> list[int]:
     columna: list[int] = []
