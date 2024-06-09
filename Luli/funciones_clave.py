@@ -63,6 +63,15 @@ def suma_total(lista:list[int]) -> int:
         total += lista[i]
     return total
 
+def cantidad_elementos_cola(c: Cola) -> int:
+    copia = copiar_cola(c)
+    contador: int = 0
+
+    while not copia.empty():
+        copia.get()
+        contador += 1
+    return contador
+
 def ordenados(numeros:list[int]) -> bool:
     for i in range (len(numeros)-1):
         if numeros[i] > numeros[i+1]:
@@ -80,6 +89,32 @@ def invertir_lista(lista:list[int]) -> bool:
     for i in range(len(lista) -1, -1, -1):
         res.append(lista[i])
     return res
+
+def invertir_cola_con_pila(cola: Cola) -> Cola:
+    cAux: Cola = copiar_cola(cola)
+    cInv: Cola = Cola()
+    pAux: Pila = Pila()
+    while not cAux.empty():
+        elemento = cAux.get()
+        pAux.put(elemento)
+    while not pAux.empty():
+        elem = pAux.get()
+        cInv.put(elem)
+    return cInv
+
+def invertir_cola(c: Cola) -> Cola:
+    copia: Cola = copiar_cola(c)
+    cFin: Cola = Cola()
+
+    while not copia.empty():
+        cAux: Cola = Cola()
+        while cantidad_elementos_cola(copia) > 1:
+            elem = copia.get()
+            cAux.put(elem)
+        if cantidad_elementos_cola(copia) == 1:
+            cFin.put(copia.get())
+        copia = cAux
+    return cFin
 
 def eliminar_repetidos(s: str) -> str:
     nuevo_str: str = ""
