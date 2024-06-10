@@ -84,6 +84,16 @@ def capicua_str(texto: str) -> bool: # es lo mismo para lista de int
             return False
     return True
 
+def es_minuscula(char:str) -> bool:
+    if "z" >= char >= "a" :
+        return True
+    return False
+
+def es_mayuscula(char:str) -> bool:
+    if "Z" >= char >= "A" :
+        return True
+    return False
+
 def a_minusculas(texto: str) -> str:
     minusculas = ""
     for char in texto:
@@ -92,6 +102,16 @@ def a_minusculas(texto: str) -> str:
         else:
             minusculas += char
     return minusculas
+
+def reversa(palabra:str) -> str:
+    reverso:str = ""
+    longitud:int = len(palabra)
+    i:int = longitud - 1
+    while i > (-1):
+        caracter:str = palabra[i]
+        reverso += caracter
+        i -= 1
+    return reverso
 
 def invertir_lista(lista:list[int]) -> bool:
     res: list[int] = []
@@ -193,6 +213,19 @@ def columna_matriz(m: list[list[int]], num_col: int) -> list[int]:
     for fila in m:
         columna.append(fila[num_col]) # de cada fila agarro el elemento que esta en la posicion igual que el numero de columna
     return columna
+
+def columnas(matriz:list[list[int]]) -> list[list[int]]: #[[1,2,3], [4,5,6], [7,8,9]]
+    i:int = 0                                            #[[1,4,7], [2,5,8], [3,6,9]]
+    longitud_fila:int = len(matriz[0])
+    columnas:list[list[int]] = []
+    lista:list[int] = []
+    while longitud_fila > i:
+        for fila in matriz:
+            lista.append(fila[i])
+        columnas.append(lista)
+        lista = []
+        i += 1
+    return columnas
 
 def copiar_diccionario(diccionario: dict[str,str]) -> dict[str,str]:
     copiar_diccionario: dict[str,str] = {}
