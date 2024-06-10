@@ -567,4 +567,32 @@ def agregar_a_lista_de_espera(disponibles: dict[str, Cola], nombre: str, persona
 
 # print("\nLista final libros prestados:")
 # for libro, pila in libros_prestados.items():
-#     print(f"{libro}: {list(pila.queue)}")    
+#     print(f"{libro}: {list(pila.queue)}")  
+
+# --
+
+def filtrar_claves_por_prefijo(dicc: dict[str, int], prefijo: str) -> dict[str,int]:
+    dicc_final: dict[str, int] = {}
+    condicion: bool
+
+    for palabra in dicc.keys():
+        if len(palabra) >= len(prefijo):
+            condicion = True
+            for i in range (len(prefijo)):
+                if prefijo[i] != palabra[i]:
+                    condicion = False
+            if condicion == True:
+                dicc_final[palabra] = dicc[palabra]
+    return dicc_final
+
+# --
+
+def fusionar_diccionarios(dic1: dict[str, int], dic2: dict[str, int]) -> dict[str, int]:
+    dicc_final: dict[str, int] = copiar_diccionario(dic1)
+
+    for clave, valor in dic2.items():
+        dicc_final[clave] = valor
+    return dicc_final
+
+# print(fusionar_diccionarios({'a': 1, 'b': 2}, {'b': 3, 'c': 4}))
+# Salida esperada: {'a': 1, 'b': 3, 'c': 4}
