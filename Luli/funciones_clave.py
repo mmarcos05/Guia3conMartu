@@ -84,6 +84,15 @@ def capicua_str(texto: str) -> bool: # es lo mismo para lista de int
             return False
     return True
 
+def a_minusculas(texto: str) -> str:
+    minusculas = ""
+    for char in texto:
+        if 'A' <= char <= 'Z':
+            minusculas += chr(ord(char) + 32)
+        else:
+            minusculas += char
+    return minusculas
+
 def invertir_lista(lista:list[int]) -> bool:
     res: list[int] = []
     for i in range(len(lista) -1, -1, -1):
