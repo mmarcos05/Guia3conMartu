@@ -13,7 +13,7 @@ imprimir_saludo()
 
 #EJERCICIO 1
 def imprimir_hola_mundo() :
-  return ("Hola Mundo")
+  return ("Holaa Mundo")
 
 #EJERCICIO 1.4
 def factorial_de_dos() -> int:
